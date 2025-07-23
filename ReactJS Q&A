@@ -248,3 +248,227 @@ Missing or duplicate keys: Not providing unique keys for list items can result i
 Complex nested structures: In deeply nested components, the diffing process may take longer, although it is still optimized compared to manual DOM manipulation.
 ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
+ReactJS State
+Last Updated : 12 Apr, 2025
+In React, the state refers to an object that holds information about a component's current situation. This information can change over time, typically as a result of user actions or data fetching, and when state changes, React re-renders the component to reflect the updated UI.
+
+Whenever state changes, React re-renders the component to reflect the updated data. This enables you to build dynamic UIs that respond to user interactions.
+
+Syntax
+
+const [state, setState] = useState(initialState);
+In this syntax
+
+state: The current state value.
+setState: A function that is used to update the state.
+initialState: The initial value that the state will hold when the component is first rendered.
+Creating State Object
+Creating a state in React is essential to building dynamic and interactive components. We can create a state object within the constructor of the class component.
+
+
+import React from 'react';
+
+class MyComponent extends React.Component {
+    constructor(props) {
+        super(props);
+        this.state = {
+            brand: 'Ford', // Example property in the state
+        };
+    }
+
+    render() {
+        return (
+            <div>
+                <h1>My Car</h1>
+                {/* Other component content */}
+            </div>
+        );
+    }
+}
+
+export default MyComponent;
+The MyComponent class extends React.Component, and inside the constructor, it initializes the component's state with a brand property set to 'Ford'.
+The render() method returns JSX that displays an <h1> heading with the text "My Car" and renders the component's content.
+Updating State in React
+We are using the ES6 thick arrow function format to take the previous state and props of the component as parameters and are updating the counter. The same can be written using the default functional way as follows.  
+
+
+// Filename - index.js
+
+import React from "react";
+import ReactDOM from "react-dom/client";
+
+class App extends React.Component {
+    constructor(props) {
+        super(props);
+        this.state = {
+            count: 0,
+        };
+    }
+
+    increment = () => {
+        this.setState((prevState) => ({
+            count: prevState.count + 1,
+        }));
+    };
+
+    decrement = () => {
+        this.setState((prevState) => ({
+            count: prevState.count - 1,
+        }));
+    };
+
+    render() {
+        return (
+            <div>
+                <h1>
+                    The current count is :{" "}
+                    {this.state.count}
+                </h1>
+                <button onClick={this.increment}>
+                    Increase
+                </button>
+                <button onClick={this.decrement}>
+                    Decrease
+                </button>
+            </div>
+        );
+    }
+}
+
+const root = ReactDOM.createRoot(
+    document.getElementById("root")
+);
+root.render(
+    <React.StrictMode>
+        <App />
+    </React.StrictMode>
+);
+Output
+
+
+ReactJS State
+
+Key Features of State in React
+Encapsulation of Data: Each React component has its own state, and the state data is encapsulated within the component. This means that state is not shared across components unless explicitly passed via props.
+Reactivity and Re-rendering: When state changes, React automatically triggers a re-render of the component to reflect the updated state in the UI. React ensures that only the parts of the UI that depend on the state are re-rendered, improving performance.
+Mutable Within the Component: State is mutable, meaning you can change it using the setState() method (in class components) or the state-updating function returned by useState() (in functional components). However, you should not directly mutate the state (e.g., this.state.count = 5), as this can lead to unexpected behavior.
+Best Practices for Managing State in React
+Do Not Directly Modify State: Avoid directly modifying the state. Instead, use setState() or the state-updating function from useState() to ensure proper reactivity.
+Use Functional Updates for Previous State: If the new state depends on the previous state, use a functional update to avoid potential issues with state changes.
+Lift State Up When Necessary: In React, state should be lifted up to the nearest common ancestor if two components need to share the same state. This makes it easier to manage state at a higher level and pass it down via props.
+Use Multiple State Variables: You don’t have to store all your state in a single object. React allows you to use multiple useState() calls in a single component. This can improve readability and maintainability by keeping state values grouped logically.
+State vs Props
+While both state and props store data in React, they serve different purposes:
+
+State: Managed within the component, mutable, and used to store dynamic data that changes over time.
+Props: Passed from a parent component to a child component, immutable, and used to share data between components.
+State can change over time and cause re-renders, whereas props are used to pass data from one component to another but are not directly modified by the component receiving them.
+
+When to Use State in React
+You should use state in React whenever:
+
+You need to store dynamic data that changes over time.
+The component should re-render when the state changes, reflecting updates in the UI.
+You need to manage user input, form data, or API responses.
+However, if the data does not change over time, it should be handled via props instead of state.
+
+Conclusion
+State is an essential concept in React that allows components to maintain dynamic data and re-render themselves when necessary. Whether you're using class components with this.setState() or functional components with the useState() hook, managing state effectively is key to building interactive React applications.
+---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+Implementing State in React Components
+Last Updated : 11 Jul, 2025
+In React State is an object that holds some information which can be changed overtime. Whenever a State is updated it triggers re-rendering of the component. In React components State can be implemented by default in class components and in functional components we have to implement state using hooks.
+
+Table of Content
+
+Approaches To Implementing State in React
+Implementing State Using this.state object
+Implementing State using useState hook:
+Conclusion:
+Approaches To Implementing State in React
+There are two ways to implement state in React Components based upon the type of component
+
+Using the this.state object (Class Component)
+Using the useState hook (Functional Components)
+Implementing State Using this.state object
+Create a class component by extending Component class
+Inside the constructor call the parent constructor using super() method
+Initialize state using the this.state object
+Pass the values in key-value pair
+You can update this state using the this.setState method
+To access the state we use JSX syntax and access its value
+Implement State using this.state Example :
+This example creates a counter in react by implementing state using the above mentioned approach
+
+
+import React, { Component } from "react";
+
+class App extends React.Component {
+    constructor() {
+        super();
+        this.state = {
+            count: 0,
+        };
+        this.increase = this.increase.bind(this);
+    }
+
+    increase() {
+        this.setState({ count: this.state.count + 1 });
+    }
+
+    render() {
+        return (
+            <div style={{ margin: "50px" }}>
+                <h1>Welcome to Geeks for Geeks </h1>
+                <h3>Counter App using Class Component : </h3>
+                <h2> {this.state.count}</h2>
+                <button onClick={this.increase}> Add</button>
+            </div>
+        );
+    }
+}
+
+export default App;
+Output:
+
+gfg
+
+Implementing State using useState hook:
+Import the useState hook from react
+Create a functional component
+Create a state object using useState hook
+The second parameter in useState hook is used to update the state
+The state can be accessed using the JSX syntax
+Implement state using react hooks Example:
+This example creates a counter by implementing state using the above mentioned approach
+
+
+import React, { useState } from "react";
+
+const App = () => {
+    const [count, setCount] = useState(0);
+
+    const increase = () => {
+        setCount(count + 1);
+    }
+
+    return (
+        <div style={{ margin: '50px' }}>
+            <h1>Welcome to Geeks for Geeks </h1>
+            <h3>Counter App using Functional Component : </h3>
+            <h2>{count}</h2>
+            <button onClick={increase}>Add</button>
+        </div>
+    )
+}
+
+export default App;
+Output:
+
+
+
+Conclusion:
+States can be implemented in React by both functional and class components but to implement state in functional component we have to import the useState hook but state can be implemented directly in class component using the this.state object. States are useful as they are mutable unlike props and can helps us to create dynamic and interactive interfaces
+
+
