@@ -996,7 +996,6 @@ Let us now see one final example to finish the article while revising what’s d
 
 First, create a react app and edit your index.js file from the src folder.
 
-
 // Filename - src/index.js:
 import React from "react";
 import ReactDOM from 'react-dom';
@@ -1069,3 +1068,38 @@ In functional components, hooks like useState() and useEffect() make it easier t
 Conclusion
 The React component lifecycle is essential for managing component behavior, handling state and props, and optimizing performance. By effectively utilizing lifecycle methods, developers can ensure efficient rendering and proper resource management throughout the component’s life.
 --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+actJS, a Higher-Order Component (HOC) is a design pattern that lets you reuse component logic by wrapping one component inside another. It’s not a feature of React itself, but a pattern that emerges from React’s compositional nature.
+
+🧠 What Is a Higher-Order Component?
+A HOC is a function that:
+- Takes a component as input
+- Returns a new component with enhanced behavior
+const withExtraProps = (WrappedComponent) => {
+  return (props) => {
+    return <WrappedComponent {...props} extra="Hello from HOC!" />;
+  };
+};
+
+
+📦 Why Use HOCs?
+- Code Reusability: Share logic like authentication, logging, or data fetching
+- Separation of Concerns: Keep UI and logic separate
+- Composition: Combine multiple behaviors without modifying the original component
+
+🛠️ Real Example: Add Logging to Any Component
+const withLogger = (WrappedComponent) => {
+  return class extends React.Component {
+    componentDidMount() {
+      console.log(`${WrappedComponent.name} mounted`);
+    }
+
+    render() {
+      return <WrappedComponent {...this.props} />;
+    }
+  };
+};
+
+
+Usage:
+const MyComponent = () => <div>Hello!</div>;
+const MyComponentWithLogger = withLogger(MyComponent);
