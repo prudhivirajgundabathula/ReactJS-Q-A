@@ -612,4 +612,244 @@ function App() {
 - Whatever is placed between <Card> ... </Card> in App.js becomes props.children.
 - This makes Card reusable for wrapping any content.
 --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+ReactJS Components Complete Reference
 
+In ReactJS, components are the building blocks that help you create interactive UIs by dividing your app into smaller, reusable pieces of code. Understanding how components work is essential for efficiently developing React applications.
+
+In this article will provide a complete reference to React components, covering their types, usage, and key differences between class and functional components.
+
+What are ReactJS Components?
+Components in React are JavaScript functions or classes that return a piece of UI. These components allow developers to build complex UIs from small, isolated, and reusable pieces. React components are the core building blocks for any React application and can manage their state, handle user inputs, and render dynamic content.
+
+Types of React Components
+There are two main types of components in React:
+
+Functional Components
+Class Components
+Functional Components
+A Functional Component is a simpler and more concise way of writing components in React using JavaScript functions. These components receive props (properties) as an argument and return JSX (JavaScript XML) to define the UI structure.
+
+
+import React, { useState } from 'react';
+
+const Welcome = () => {
+
+    const [message, setMessage] = useState("Hello, World!");
+
+    return (
+        <div>
+            <h1>{message}</h1>
+            <button onClick={() => setMessage("Hello, React!")}>
+                Change Message
+            </button>
+        </div>
+    );
+};
+
+export default Welcome;
+Output
+
+functional-component
+Functional Components
+ In this code
+
+useState is used to manage the message state, initially set to "Hello, World!".
+The button click triggers setMessage, which updates the message state to "Hello, React!".
+The component displays the message in an <h1> element and updates it when the button is clicked.
+Class Components
+Class components in React are ES6 classes that extend the React.Component class. They are used for creating components that need to have their own state or lifecycle methods. While functional components are now the go-to choice for many developers (especially with the introduction of hooks like useState and useEffect), class components still have their place and provide a more traditional way of handling component logic in React.
+
+
+import React, { Component } from 'react';
+
+class Counter extends Component {
+    constructor(props) {
+        super(props);
+
+        this.state = {
+            count: 0
+        };
+    }
+
+    increment = () => {
+        this.setState({ count: this.state.count + 1 });
+    };
+
+    decrement = () => {
+        this.setState({ count: this.state.count - 1 });
+    };
+
+    render() {
+        return (
+            <div>
+                <h1>Counter: {this.state.count}</h1>
+                <button onClick={this.increment}>Increment</button>
+                <button onClick={this.decrement}>Decrement</button>
+            </div>
+        );
+    }
+}
+
+export default Counter;
+Output
+
+class-component
+Class Components in React
+In this code
+
+state: The counter (count) is initialized to 0 in the constructor.
+increment and decrement: These methods update the count state by 1 when the respective buttons are clicked.
+render: Displays the current count and two buttons to increment or decrement the counter.
+---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+ReactJS Functional Components
+Last Updated : 17 Feb, 2025
+In ReactJS, functional components are a core part of building user interfaces. They are simple, lightweight, and powerful tools for rendering UI and handling logic. Functional components can accept props as input and return JSX that describes what the component should render.
+
+What are Reactjs Functional Components
+ReactJS functional components are JavaScript functions that return a JSX element, which is a template used to define the component's structure. JSX looks similar to HTML, but it has a special syntax that lets it be converted into JavaScript code.
+
+Stateless (before hooks): Originally, functional components were stateless and used only for rendering UI based on props.
+Simpler Syntax: They are defined as JavaScript functions, leading to cleaner and more readable code.
+Return JSX: Functional components return JSX (a syntax extension that allows HTML-like code inside JavaScript).
+No, this keyword: Unlike class components, functional components do not have a this context.
+Hooks: With hooks, functional components can manage state and side effects, making them just as powerful as class components.
+
+import React from 'react';
+
+const MyComp = (props) => {
+    return <div>Hello, {props.name}!</div>;
+};
+
+export default MyComp;
+In the example above:
+
+MyComp is a functional component that takes props as an argument.
+It returns a JSX element (<div>Hello, {props.name}!</div>), which will be rendered to the screen.
+How ReactJS Functional Components Work
+When a functional component receives input and is rendered, React uses props and updates the virtual DOM to ensure the UI reflects the current state.
+
+Here's a breakdown of how this process works:
+
+Props: Functional components receive input data through props, which are objects containing key-value pairs.
+Processing Props: After receiving props, the component processes them and returns a JSX element that defines the component's structure and content.
+Virtual DOM: When the component is rendered, React creates a virtual DOM tree that represents the current state of the application.
+Re-rendering: If the component's props or state change, React updates the virtual DOM tree accordingly and triggers the component to re-render.
+Implementation of functional component in ReactJS :
+
+
+import React, { useState } from 'react';
+
+function App() {
+  const [message, setMessage] = useState("Hello World!");
+
+  const changeMessage = () => {
+    setMessage("Welcome to React!");
+  };
+
+  return (
+    <div style={{ textAlign: "center", marginTop: "50px" }}>
+      <h1>{message}</h1>  {/* Display the dynamic message */}
+      <button 
+        onClick={changeMessage} 
+        style={{
+          padding: "10px 20px", 
+          fontSize: "16px", 
+          backgroundColor: "#4CAF50", 
+          color: "white", 
+          border: "none", 
+          borderRadius: "5px", 
+          cursor: "pointer"
+        }}
+      >
+        Click Me!
+      </button>
+    </div>
+  );
+}
+
+export default App;
+Output
+
+functional
+ReactJS Functional Component
+
+
+Why use ReactJS Functional Components
+ReactJS functional components offer several benefits over class components, including:
+
+Simplicity: Functional components are simpler and easier to read than class components, making them ideal for small to medium-sized projects.
+Performance: Functional components are faster than class components because they don’t use the this keyword, which can slow down rendering.
+Testability: Functional components are easier to test because they are stateless and don’t rely on lifecycle methods.
+Reusability: Functional components can be reused across multiple projects, making them a great choice for building component libraries.
+When to Use ReactJS Functional Components
+Functional components should be used whenever possible because they are simpler, easier to test, and more performant than class components. However, there are a few cases where functional components may not be suitable:
+
+Stateful components: Functional components cannot hold state on their own. Therefore, if you need to maintain state within your component, you may need to use a class component.
+Lifecycle methods: If you need to use lifecycle methods such as componentDidMount, componentDidUpdate, or componentWillUnmount, you will need to use a class component.
+How to Pass Props to a ReactJS Functional Component
+Props are used to pass data from a parent component to a child component. Props are read-only and allow you to make a component dynamic by passing different values into it.
+
+Passing a Single Prop to a React Functional Component:
+
+
+import React from 'react';
+import Greeting from './components/Greeting';  
+
+function App() {
+  return (
+    <div style={{ textAlign: "center", marginTop: "50px" }}>
+      <Greeting message="Hello, World!" />  {/* Passing 'message' prop */}
+    </div>
+  );
+}
+
+export default App;
+Output
+
+Hello World!
+In this code
+
+In the App.js component, we are passing a name prop to the Greeting component.
+In Greeting.js, the name prop is accessed using props.name, and it is used to dynamically display the greeting message.
+When you render <Greeting name="John" />.
+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+3. Input Element : In React, the Input Element value can be handled in two ways:
+Controlled Input
+Uncontrolled Input
+1. Controlled Input
+If the Input Element value is handled by a React State then it is called Controlled Input. Controlled Inputs are the React Suggested way to handle Input Element value.
+
+Example:
+import {Component} from 'react'
+
+class App extends Component {
+  state = {
+    searchInput: '',
+  }
+
+  onChangeSearchInput = event => {
+    this.setState({
+      searchInput: event.target.value,
+    })
+  }
+
+  render() {
+    const {searchInput} = this.state
+    return (
+      <input
+        type="text"
+        onChange={this.onChangeSearchInput}
+        value={searchInput}
+      />
+    )
+  }
+}
+
+export default App
+
+2. Uncontrolled Input
+If the Input Element value is handled by the browser itself then it is called Uncontrolled Input.
+
+Uncontrolled inputs are like traditional HTML form inputs. Its value can only be set by a user, but not programmatically. However, in controlled input value is programmatically handled using React State.
+
+Example:  <input type="text" />
