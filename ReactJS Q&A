@@ -847,9 +847,190 @@ class App extends Component {
 
 export default App
 
-2. Uncontrolled Input
-If the Input Element value is handled by the browser itself then it is called Uncontrolled Input.
-
+2. Uncontrolled Input : If the Input Element value is handled by the browser itself then it is called Uncontrolled Input.
 Uncontrolled inputs are like traditional HTML form inputs. Its value can only be set by a user, but not programmatically. However, in controlled input value is programmatically handled using React State.
-
 Example:  <input type="text" />
+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+React Lifecycle
+In React, the lifecycle refers to the various stages a component goes through. These stages allow developers to run specific code at key moments, such as when the component is created, updated, or removed. By understanding the React lifecycle, you can better manage resources, side effects, and performance.
+
+What is the React Lifecycle?
+The React lifecycle refers to the different phases a component goes through during its time in a React application. These phases allow you to run specific code at key moments in a component's life, such as when it’s created, updated, or removed from the screen.
+
+Here are the three main phases of the React component lifecycle
+
+React-Lifecycle
+React Lifecycle Method
+Mounting: Initializes, renders, and mounts the component (componentDidMount()).
+Updating: Handles state/prop changes, re-renders, and updates (componentDidUpdate()).
+Unmounting: Cleans up before removal (componentWillUnmount()).
+Phases of Lifecycle in React Components
+
+1. Mounting
+Mounting refers to the process of creating and inserting a component into the DOM for the first time in a React application. During mounting, React initializes the component, sets up its internal state (if any), and inserts it into the DOM.
+
+constructor
+getDerivedStateFromProps
+render()
+componentDidMount()
+
+constructor() : Method to initialize state and bind methods. Executed before the component is mounted.
+
+constructor(props) {
+    super(props); // Always call super(props) before using this.props
+    this.state = {
+        count: 0, // Initial state
+    };
+    console.log("Constructor called");
+}
+
+getDerivedStateFromProps(props, state) : Used for updating the state based on props. Executed before every render.
+
+static getDerivedStateFromProps(props, state) {
+    if (props.value !== state.value) {
+        return { value: props.value }; // Update state based on new props
+    }
+    return null; // No changes to state
+}
+
+render() method : Responsible for rendering JSX and updating the DOM.
+
+render() {
+    return (
+        <div>
+            <h1>Hello, React Lifecycle!</h1>
+        </div>
+    );
+}
+componentDidMount() Function : This function is invoked right after the component is mounted on the DOM, i.e. this function gets invoked once after the render() function is executed for the first time.
+
+componentDidMount() {
+    console.log("Component has been mounted");
+
+    // Example: Fetch data from an API
+    fetch("https://api.example.com/data")
+        .then(response => response.json())
+        .then(data => this.setState({ data }));
+}
+
+2. Updation : Updating refers to the process of a component being re-rendered due to changes in its state or props. This phase occurs whenever a component's internal state is modified or its parent component passes new props. When an update happens, React re-renders the component to reflect the changes and ensures that the DOM is updated accordingly.
+
+getDerivedStateFromProps
+setState() Function
+shouldComponentUpdate()
+getSnapshotBeforeUpdate() Method
+componentDidUpdate()
+getDerivedStateFromProps
+
+getDerivedStateFromProps(props, state) is a static method that is called just before the render() method in both the mounting and updating phase in React. It takes updated props and the current state as arguments.
+
+static getDerivedStateFromProps(props, state) {
+    if (props.name !== state.name) {
+        return { name: props.name }; // Update state with new props
+    }
+    return null; // No state change
+}
+setState()
+This is not particularly a Lifecycle function and can be invoked explicitly at any instant. This function is used to update the state of a component. You may refer to this article for detailed information.
+
+this.setState((prevState, props) => ({
+      counter: prevState.count + props.diff
+}));
+shouldComponentUpdate()
+shouldComponentUpdate() Is a lifecycle method in React class components that determines whether a component should re-render. It compares the current and next props/states and returns true if the component should update or false if it should not.
+
+shouldComponentUpdate(nextProps, nextState)
+It returns true or false, if false, then render(), componentWillUpdate(), and componentDidUpdate() method does not get invoked.
+
+getSnapshotBeforeUpdate() Method
+The getSnapshotBeforeUpdate() method is invoked just before the DOM is being rendered. It is used to store the previous values of the state after the DOM is updated.
+
+getSnapshotBeforeUpdate(prevProps, prevState)
+componentDidUpdate()
+Similarly, this function is invoked after the component is rendered, i.e., this function gets invoked once after the render() function is executed after the updation of State or Props.
+
+componentDidUpdate(prevProps, prevState, snapshot)
+3. Unmounting
+This is the final phase of the lifecycle of the component, which is the phase of unmounting the component from the DOM. The following function is the sole member of this phase.
+
+componentWillUnmount()
+This function is invoked before the component is finally unmounted from the DOM, i.e., this function gets invoked once before the component is removed from the page, and this denotes the end of the lifecycle.
+
+Implementing the Component Lifecycle methods
+Let us now see one final example to finish the article while revising what’s discussed above.
+
+First, create a react app and edit your index.js file from the src folder.
+
+
+// Filename - src/index.js:
+import React from "react";
+import ReactDOM from 'react-dom';
+class Test extends React.Component {
+    constructor(props) {
+        super(props);
+        this.state = { hello: "World!" };
+    }
+    componentDidMount() {
+        console.log("componentDidMount()");
+    }
+    changeState() {
+        this.setState({ hello: "Geek!" });
+    }
+    render() {
+        return (
+            <div>
+                <h1>
+                    GeeksForGeeks.org, Hello
+                    {this.state.hello}
+                </h1>
+                <h2>
+                    <a
+                        onClick={this.changeState.bind(
+                            this
+                        )}
+                    >
+                        Press Here!
+                    </a>
+                </h2>
+            </div>
+        );
+    }
+    shouldComponentUpdate(nextProps, nextState) {
+        console.log("shouldComponentUpdate()");
+        return true;
+    }
+    componentDidUpdate() {
+        console.log("componentDidUpdate()");
+    }
+}
+const root = ReactDOM.createRoot(
+    document.getElementById("root")
+);
+root.render(<Test />);
+Output
+
+React lifecycle example - output
+
+In this example
+
+The Test class is a React component with a state property hello initially set to “World!”.
+The componentDidMount() the method runs after the component is added to the DOM, logging “componentDidMount().”
+The changeState() method updates the state to change hello to “Geek!” when called.
+In the render() method, the component displays the hello state inside an <h1> tag and includes a link to trigger the changeState() function.
+The shouldComponentUpdate() method logs “shouldComponentUpdate()” and allows the component to re-render while componentDidUpdate() logs “componentDidUpdate()” after the update.
+
+What is the need for the react lifecycle?
+It provides a structured way to handle specific tasks at various points in a component’s life, such as when it is created, updated, or destroyed.
+
+Data Fetching: Lifecycle methods like componentDidMount() and componentDidUpdate() allow you to fetch data, subscribe to services, or update external resources at the appropriate time.
+Performance Optimization: By controlling when certain actions occur (e.g., using shouldComponentUpdate() to prevent unnecessary re-renders), you can optimize performance and ensure your app runs efficiently.
+Resource Management: The lifecycle helps with cleanup tasks, such as removing event listeners, canceling network requests, or clearing timers (using methods like componentWillUnmount()) to prevent memory leaks.
+Handling State and Props Changes: The lifecycle provides hooks to update and respond to state or props changes in a controlled way, allowing for dynamic behavior and interaction in your components.
+Handling Component Removal: When a component is no longer needed, the lifecycle helps you clean up resources and ensure that nothing unnecessary continues to run.
+React lifecycle method in class component vs functional component
+In class components, we need different methods for handling state and side effects, which can be more complex.
+In functional components, hooks like useState() and useEffect() make it easier to manage state and side effects, making the code shorter and simpler. Functional components are often preferred because they're cleaner and easier to understand.
+
+Conclusion
+The React component lifecycle is essential for managing component behavior, handling state and props, and optimizing performance. By effectively utilizing lifecycle methods, developers can ensure efficient rendering and proper resource management throughout the component’s life.
+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
