@@ -1103,3 +1103,45 @@ const withLogger = (WrappedComponent) => {
 Usage:
 const MyComponent = () => <div>Hello!</div>;
 const MyComponentWithLogger = withLogger(MyComponent);
+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+ReactJS Fragments are a handy way to group multiple elements without adding extra nodes to the DOM. This keeps your markup clean and avoids unnecessary <div> wrappers that can clutter your layout or break semantic HTML.
+0
+🧩 Why Use Fragments?
+- Cleaner DOM: No extra wrapper elements
+- Better performance: Fewer nodes to render
+- Semantic HTML: Avoids invalid nesting (e.g., <td> inside <div>)
+
+🛠️ Two Ways to Use Fragments
+1. Shorthand Syntax
+<>
+  <h1>Hello</h1>
+  <p>Welcome to React!</p>
+</>
+
+
+2. Explicit React.Fragment
+import React from 'react';
+
+<React.Fragment>
+  <h1>Hello</h1>
+  <p>Welcome to React!</p>
+</React.Fragment>
+
+Use the explicit form when you need to pass a key prop—like when rendering a list.
+
+🔍 Example: Rendering a List Without Extra <div>s
+const FruitList = ({ fruits }) => {
+  return (
+    <>
+      {fruits.map((fruit, index) => (
+        <React.Fragment key={index}>
+          <h3>{fruit.name}</h3>
+          <p>{fruit.description}</p>
+        </React.Fragment>
+      ))}
+    </>
+  );
+};
+
+This avoids wrapping each fruit in a <div>, keeping your DOM lean and mean.
+---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
