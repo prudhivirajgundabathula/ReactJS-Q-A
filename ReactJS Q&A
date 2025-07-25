@@ -1626,3 +1626,45 @@ const countRef = useRef(0);
 If you're building a controlled input, use useState.
 If you're tracking a debounce timer or scroll position, use useRef.
 -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+React’s Strict Mode is like a developer’s spotlight—it helps you catch bugs and legacy patterns early, without affecting your production build. It doesn’t render any visible UI, but it wraps components to activate extra checks during development.
+
+🔍 What It Does
+When you wrap components in <React.StrictMode>, React performs the following:
+- Double-invokes certain functions (like component bodies and state initializers) to detect impure rendering
+- Re-runs effects and ref callbacks to catch missing cleanups
+- Warns about deprecated APIs like findDOMNode, legacy string refs, and unsafe lifecycle methods
+- Simulates mounting/unmounting to ensure state and effects are resilient
+
+🛠️ How to Use It
+Wrap your root or specific parts of your app:
+import { StrictMode } from 'react';
+import { createRoot } from 'react-dom/client';
+
+const root = createRoot(document.getElementById('root'));
+root.render(
+  <StrictMode>
+    <App />
+  </StrictMode>
+);
+
+
+You can also wrap just a portion:
+function App() {
+  return (
+    <>
+      <Header />
+      <StrictMode>
+        <Main />
+      </StrictMode>
+      <Footer />
+    </>
+  );
+}
+
+🧠 Why It Matters
+Strict Mode is especially useful when:
+- Migrating legacy code
+- Preparing for concurrent rendering (React 18+)
+- Debugging side effects and state issues
+- Ensuring clean and predictable component behavior
+------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
