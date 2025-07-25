@@ -1268,9 +1268,7 @@ NavLink: Similar to Link but provides additional styling attributes when the lin
     <Link to="/about">About</Link>
 </nav>
 
-3. StaticRouter
-🔎 Definition:
-Used for server-side rendering (SSR). It doesn’t change location, but renders based on a given location prop.
+3. StaticRouter :Used for server-side rendering (SSR). It doesn’t change location, but renders based on a given location prop.
 🧪 Example:
 import { StaticRouter } from 'react-router-dom/server';
 <StaticRouter location="/about">
