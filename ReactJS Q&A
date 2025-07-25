@@ -1298,5 +1298,331 @@ URL Management: React Router helps manage the URLs in your application, allowing
 Component-Based Approach: Routing is handled through components, making it easy to compose routes and navigation in a modular and reusable way.
 Handling Nested Routes: React Router allows the creation of nested routes, which enables a more organized and structured approach to rendering content. This is particularly useful for larger applications with a complex structure.
 --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+ReactJS Hooks Reference
+React hooks are functions that allow you to use state and other React features in functional components. Hooks were introduced in React 16.8, enabling developers to manage state and lifecycle features without needing class components. They simplify the development process and make it easier to write reusable and cleaner code.
+Below is the basic representation of the React JS Hooks useState.
+
+import React, { useState } from 'react';
+import './App.css'
+
+const App = () => {
+    const [num, setNum] = useState(0);
+    const handleClick = () => {
+        setNum(num + 1);
+    };
+
+    return (
+        <div className="App">
+            <h2> {num}</h2>
+            <button onClick={handleClick}>
+                Add one
+            </button>
+        </div>
+    );
+};
+
+export default App;
+The useState hook is used to create a num state, initialized to 0, and a setNum function to update it when the button is clicked.
+The handleClick function increments num by 1 each time the button is clicked, updating the displayed value in the <h2> tag.
+
+Why Use React Hooks?
+Simplifies Code: Hooks provide a simpler and cleaner way to write components by using functions instead of classes.
+State and Side Effects: Hooks allow you to use state (useState) and side effects (useEffect) in functional components.
+Reusability: Hooks make it easier to share logic across components by creating custom hooks.
+Readability: Functional components with hooks tend to be more concise and easier to read than class components.
+Different Hooks in React
+useState: useState is used to add state to functional components.
+useEffect: useEffect is used to perform side effects (like fetching data or subscribing to services) in functional components.
+useContext: useContext allows you to access the value of a context in functional components.
+useReducer: useReducer is an alternative to useState for more complex state logic.
+useRef: useRef returns a mutable ref object which can be used to reference DOM elements or store mutable values.
+useMemo: useMemo is used to memoize values or computations to prevent expensive calculations on every render.
+useCallback: useCallback is used to memoize functions so that they are not recreated on every render.
+useLayoutEffect: Similar to useEffect, but it runs synchronously after all DOM mutations, allowing you to perform operations on the layout.
+useImperativeHandle: useImperativeHandle customizes the instance value that is exposed when using ref in functional components.
+Advantages of Using Hooks
+Cleaner Code: Hooks make code simpler and easier to read by allowing state and effects to be used directly in functional components.
+Better Reusability: Custom hooks allow the reuse of logic across different components.
+No this keyword: Hooks eliminate the need for the this keyword found in class components, reducing complexity and mistakes.
+More Functionality in Functional Components: Previously, only class components could use lifecycle methods and state. Now, with hooks, even functional components can manage state, side effects, and other features.
 
 
+1: React useState Hook : The useState hook is a function that allows you to add state to a functional component. It is an alternative to the useReducer hook that is preferred when we require the basic update. useState Hooks are used to add the state variables in the components. For using the useState hook we have to import it in the component.
+
+Syntax
+
+const [state, setState] = useState(initialState)
+state: It is the value of the current state.
+setState: It is the function that is used to update the state.
+initialState: It is the initial value of the state.
+How Does useState() Work?
+The useState() hook allows you to add state to functional components in React. It works by:
+
+1. Initialize State: When you call useState(initialValue), it creates a state variable and an updater function.
+
+const [count, setCount] = useState(0);
+2. State is Preserved Across Renders: React remembers the state value between re-renders of the component. Each time the component renders, React keeps the latest value of count.
+
+3. State Updates with the Updater Function: When you call setCount(newValue) React updates the state and it re-renders the component to reflect the new state value.
+
+<button onClick={() => setCount(count + 1)}>Increment</button>
+4. Triggers Re-render: React will re-render only the component where useState was used—ensuring your UI updates automatically when the state changes.
+
+Implementing the useState hook
+Here is the implementation of the useState hook:
+
+1. Counter using useState
+A common example of using useState is managing the state of a counter with actions to increment and decrement the value.
+
+
+import { useState } from 'react';
+export default function Counter() {
+    const [count, setCount] = useState(0);
+
+    function handleClick() {
+        setCount(count + 1);
+    }
+    return (
+        <button onClick={handleClick}>
+            Click {count} me
+        </button>
+    );
+}
+Output
+
+Animationkk
+React useState Hook
+In this example
+
+useState(0): Initializes count with 0.
+setCount(count + 1): Updates the state by adding 1 to the current value.
+setCount(count - 1): Decreases the state by 1.
+2. Managing Form Input State
+useState is also useful for handling form input fields dynamically.
+
+import React, { useState } from 'react';
+
+function Form() {
+    const [name, setName] = useState('');
+    const [age, setAge] = useState('');
+    const [submitted, setSubmitted] = useState(false);
+
+    const handleSubmit = () => {
+        setSubmitted(true);
+    };
+
+    return (
+        <div>
+            <input
+                type="text"
+                value={name}
+                onChange={(e) => setName(e.target.value)}
+                placeholder="Enter your name"
+            />
+            <input
+                type="number"
+                value={age}
+                onChange={(e) => setAge(e.target.value)}
+                placeholder="Enter your age"
+            />
+            <button onClick={handleSubmit}>Submit</button>
+            {submitted && <p>Form Submitted!</p>}
+        </div>
+    );
+}
+
+export default Form;
+Output
+
+In this example
+
+useState(''): Initializes name and age with an empty string.
+onChange={(e): setName(e.target.value)}: Updates name state as the user types.
+onChange={(e): setAge(e.target.value)}: Updates age state as the user types.
+setSubmitted(true): Marks the form as submitted.
+Interesting Things About the useState Hook
+Manages Simple State Easily: useState is ideal for managing simple state updates, such as toggling values, counters, and form inputs.
+const [count, setCount] = useState(0);
+Functional Updates for Previous State: When updating state based on the previous state, always use a function to ensure the correct value:
+setCount(prevCount => prevCount + 1);
+Asynchronously updates the State: State updates in React are asynchronous, meaning that setState does not immediately reflect changes. Instead, updates are batched for performance.
+State Does Not Merge Automatically: Unlike this.setState in class components, useState does not merge objects automatically. You must spread the previous state manually
+Can Hold Any Data Type: useState is not limited to primitive values; it can store objects, arrays, or even functions.
+Lazy Initialization for Performance: If initializing state is expensive, you can use a function to compute it only once.
+const [count, setCount] = useState(() => computeInitialValue());
+State Updates Can Be Bypassed If the Same Value is Provided: React skips re-renders if you update the state with the same value.
+const [value, setValue] = useState(10);
+setValue(10); // No re-render happens
+When to Use useState
+We should use the useState Hook when:
+We need a simple state management solution.
+We component has state that changes over time.
+The state does not require complex updates or dependencies.
+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+2: ReactJS useEffect Hook
+The useEffect hook is one of the most commonly used hooks in ReactJS used to handle side effects in functional components. Before hooks, these kinds of tasks were only possible in class components through lifecycle methods like componentDidMount, componentDidUpdate, and componentWillUnmount.
+
+What is useEffect hook in React?
+The useEffect in ReactJS is used to handle the side effects such as fetching data and updating DOM. This hook runs on every render but there is also a way of using a dependency array using which we can control the effect of rendering. It can be used to perform actions such as:
+
+Fetching data from an API.
+Setting up event listeners or subscriptions.
+Manipulating the DOM directly (although React generally handles DOM manipulation for you).
+Cleaning up resources when a component unmounts.
+Syntax
+
+useEffect(() => {
+    // Code to run on each render
+    return () => {
+        // Cleanup function (optional)
+    };
+}, [dependencies]);
+Effect function: This is where your side effect code runs.
+Cleanup function: This optional return function cleans up side effects like subscriptions or timers when the component unmounts.
+Dependencies array: React re-runs the effect if any of the values in this array change
+How does it work?
+Initial Render Happens: React renders the component and updates the DOM.
+useEffect Executes After Render: It runs after the paint, not during render.
+Dependencies Are Checked: If there is no dependency array, the effect runs after every render; if the array is empty ([]), it runs once on mount; if dependencies are provided, it runs only when those values change.
+Cleanup Function Runs: Before the effect re-runs or the component unmounts, the cleanup function (returned from useEffect) is executed.
+Effect Re-runs: If dependencies changed, the effect runs again — after cleanup.
+Now let's see how to implement useEffect Hook in ReactJS
+
+//HookCounterOne.js
+
+// useEffect is defined here
+
+import { useState, useEffect } from "react";
+
+function HookCounterOne() {
+    const [count, setCount] = useState(0);
+
+    useEffect(() => {
+        document.title = `You clicked ${count} times`;
+    }, [count]);
+
+    return (
+        <div>
+            <button onClick={() => setCount((prevCount) => prevCount + 1)}>
+                Click {count} times{" "}
+            </button>
+        </div>
+    );
+}
+export default HookCounterOne;
+
+
+//App.js 
+
+// Importing and using HookCounterOne
+
+import React from "react";
+import "./App.css";
+import HookCounterOne from "./components/HookCounterOne";
+
+function App() {
+    return (
+        <div className="App">
+            <HookCounterOne />
+        </div>
+    );
+}
+export default App;
+
+In this example
+
+useEffect triggers a function on every component render, using React to execute specified tasks efficiently.
+Positioned within the component, it grants easy access to state and props without additional coding.
+For replicating lifecycle methods in functional components, copy and customize the provided code snippet according to your needs.
+Controlling side effects in useEffect
+1. To run useEffect on every render do not pass any dependency
+
+useEffect(()->{
+    // Example Code
+})
+2. To run useEffect only once on the first render pass any empty array in the dependecy
+
+useEffect(()->{
+    // Example Code
+}, [] )
+3. To run useEffect on change of a particular value. Pass the state and props in the dependency array
+
+useEffect(()->{
+    // Example Code
+}, [props, state] )
+Ways to mimic lifecycle methods using useEffect hook
+The useEffect() hook is not only used for handling side effects, but it also allows functional components to replicate the behavior of class-based lifecycle methods like:
+
+Mimicking componentDidMount: To run code once when the component mounts, pass an empty dependency array ([]) to useEffect. This ensures the effect runs only once, similar to componentDidMount.
+useEffect(() => {
+    console.log("Component mounted (Functional)");
+}, []);
+Mimicking componentDidUpdate : To run code every time a specific state or prop changes, include those variables in the dependency array. This simulates componentDidUpdate.
+useEffect(() => {
+    console.log("Component updated (Functional)");
+}, [value1, value2]);
+Mimicking componentWillUnmount: To run cleanup logic when the component unmounts, return a cleanup function from useEffect. This simulates componentWillUnmount.
+useEffect(() => {
+    return () => {
+        console.log("Component unmounted (Functional)");
+    };
+}, []);
+Cleaning Up Side Effects
+useEffect allows you to clean up after your effects by returning a cleanup function. This is particularly useful for:
+
+Removing event listeners.
+Canceling network requests.
+Clearing timers or intervals.
+For example, if you're setting up a timer, you can clean it up when the component unmounts or when dependencies change.
+
+Best Practices for useEffect
+Always provide a dependency array: This helps React know when the effect should run. If you don’t specify dependencies, it will run on every render.
+
+Use multiple useEffect hooks for different concerns: Split logic into separate effects to keep your code organized and readable.
+Cleanup effects: If your effect involves timers, subscriptions, or external resources, return a cleanup function to prevent memory leaks.
+Avoid heavy logic inside useEffect: Keep the logic inside useEffect simple. If needed, move complex logic into separate functions.
+Conclusion
+The useEffect hook is a powerful tool in React for handling side effects in function components. By using useEffect, you can easily manage tasks like data fetching, subscribing to events, and cleaning up resources when a component unmounts. Its flexibility allows you to run effects after the component renders, only when certain dependencies change, or once when the component mounts.
+---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+In React, both useState and useRef are hooks used to store values—but they serve very different purposes. Here's a clear breakdown to help you decide when to use each:
+
+🧠 useState – For Reactive State
+🔎 Definition:
+Stores stateful data that affects rendering. When the value changes, the component re-renders.
+🛠️ Example:
+const [count, setCount] = useState(0);
+
+<button onClick={() => setCount(count + 1)}>Click</button>
+<p>{count}</p> // Updates on every click
+
+✅ Use When:
+- You want the UI to update when the value changes
+- You're tracking user input, toggles, or dynamic data
+
+📦 useRef – For Persistent, Non-Reactive Values
+🔎 Definition:
+Stores a mutable reference that persists across renders but does not trigger re-renders when updated.
+🛠️ Example:
+const countRef = useRef(0);
+
+<button onClick={() => countRef.current++}>Click</button>
+<p>{countRef.current}</p> // Won’t update unless manually triggered
+
+✅ Use When:
+- You need to store a value without causing re-renders
+- You want to access DOM elements (ref={myRef})
+- You’re tracking values like timers, previous state, or flags
+
+🔍 Comparison Table
+| Feature | useState | useRef | 
+| Triggers re-render | ✅ Yes | ❌ No | 
+| Value persistence | ✅ Yes | ✅ Yes | 
+| DOM access | ❌ No | ✅ Yes | 
+| Update method | setState() | ref.current = value | 
+| Use in rendering | ✅ Yes | ⚠️ Only if manually triggered | 
+| Common use cases | UI updates, form inputs, toggles | DOM refs, timers, previous values | 
+
+🧪 Real-World Tip
+If you're building a controlled input, use useState.
+If you're tracking a debounce timer or scroll position, use useRef.
+-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
