@@ -1859,6 +1859,68 @@ Redux is a predictable state container for JavaScript apps—especially useful w
 - Store Updates – new state is saved
 - UI Re-renders – React components subscribed to the store get updated
 
+1. Action: What Happened?
+An action is a plain JavaScript object that describes an event or intention to change state.
+🔧 Example:
+const addTodo = (text) => ({
+  type: 'ADD_TODO',
+  payload: { text }
+});
+
+
+✅ Key Points:
+- Must have a type field (string)
+- Can include a payload with data
+- Created using action creators (functions that return actions)
+
+🔁 2. Reducer: How State Changes
+A reducer is a pure function that takes the current state and an action, and returns a new state.
+🔧 Example:
+const initialState = { todos: [] };
+
+function todoReducer(state = initialState, action) {
+  switch (action.type) {
+    case 'ADD_TODO':
+      return {
+        ...state,
+        todos: [...state.todos, action.payload.text]
+      };
+    default:
+      return state;
+  }
+}
+
+
+✅ Key Points:
+- Must be pure (no side effects)
+- Should not mutate the original state
+- Returns a new state object
+
+🏪 3. Store: The State Container
+The store holds the entire application state and connects actions to reducers.
+🔧 Example:
+import { createStore } from 'redux';
+
+const store = createStore(todoReducer);
+
+// Dispatching an action
+store.dispatch(addTodo('Learn Redux'));
+
+// Getting current state
+console.log(store.getState());
+
+✅ Key Points:
+- Created using createStore(reducer)
+- Use dispatch(action) to trigger state changes
+- Use getState() to read current state
+- Use subscribe() to listen for changes
+
+🔄 How They Work Together
+- You dispatch an action: store.dispatch(addTodo('Learn Redux'))
+- Redux calls the reducer with the current state and action
+- Reducer returns a new state
+- Store updates and notifies subscribers
+
 ⚙️ Why Use Redux?
 - Centralized state: One source of truth
 - Predictable behavior: Same input → same output
@@ -1950,7 +2012,7 @@ src/
       Modal/
 
 This keeps your codebase clean and intuitive.
-
+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
 
 
