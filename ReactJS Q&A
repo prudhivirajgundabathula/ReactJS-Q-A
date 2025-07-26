@@ -2114,5 +2114,30 @@ function Counter() {
 - Scales well with complex apps
 - Foundation for Redux and other modern state libraries
 --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+In ReactJS, inline conditional expressions are a powerful way to control what gets rendered based on dynamic conditions—without cluttering your code with verbose if statements. Here are the most common patterns used in JSX:
 
+🔀 Ternary Operator : {condition ? <ComponentA /> : <ComponentB />}
+Example: {isLoggedIn ? <Dashboard /> : <LoginForm />}
+Use this when you need to render one of two components.
 
+✅ Logical AND (&&) : {condition && <Component />}
+Example: : {hasNotifications && <NotificationBell />}
+Renders the component only if the condition is truthy.
+
+❌ Logical OR (||) — Less Common : {userName || "Guest"}
+Useful for fallback values, but not ideal for rendering components.
+
+🧩 Conditional Styling : <div className={isActive ? "active" : "inactive"} />
+
+Or using inline styles: : <div style={{ backgroundColor: isDarkMode ? "#333" : "#fff" }} />
+
+🧠 Pro Tip: Nesting JSX
+You can nest JSX inside ternaries for more complex UI logic:
+{isAdmin ? (
+  <AdminPanel />
+) : isLoggedIn ? (
+  <UserDashboard />
+) : (
+  <LoginForm />
+)}
+-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
