@@ -2013,6 +2013,83 @@ src/
 
 This keeps your codebase clean and intuitive.
 --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+Flux is a state management architecture introduced by Facebook to complement React’s component-based UI. It’s not a library or framework—just a design pattern that enforces a unidirectional data flow, making your app more predictable and easier to debug.
 
+🔄 Flux Data Flow Overview
+Flux follows a loop-like structure:
+User Interaction → Action → Dispatcher → Store → View → (back to Action)
+
+📦 Components of Flux
+| Component | Role | 
+| Action | Describes what happened (e.g., user clicked a button) | 
+| Dispatcher | Central hub that sends actions to stores | 
+| Store | Holds application state and logic | 
+| View | React components that render UI and trigger actions | 
+
+🧪 Example: Simple Counter with Flux
+1. Action
+const incrementAction = {
+  type: 'INCREMENT'
+};
+
+
+2. Dispatcher
+import { Dispatcher } from 'flux';
+const dispatcher = new Dispatcher();
+
+
+3. Store
+import { EventEmitter } from 'events';
+
+let count = 0;
+
+const CounterStore = new EventEmitter();
+
+dispatcher.register((action) => {
+  if (action.type === 'INCREMENT') {
+    count++;
+    CounterStore.emit('change');
+  }
+});
+
+CounterStore.getCount = () => count;
+CounterStore.addChangeListener = (callback) => CounterStore.on('change', callback);
+CounterStore.removeChangeListener = (callback) => CounterStore.removeListener('change', callback);
+
+export default CounterStore;
+
+
+4. View (React Component)
+import React, { useEffect, useState } from 'react';
+import dispatcher from './dispatcher';
+import CounterStore from './CounterStore';
+
+function Counter() {
+  const [count, setCount] = useState(CounterStore.getCount());
+
+  useEffect(() => {
+    const update = () => setCount(CounterStore.getCount());
+    CounterStore.addChangeListener(update);
+    return () => CounterStore.removeChangeListener(update);
+  }, []);
+
+  const handleClick = () => {
+    dispatcher.dispatch({ type: 'INCREMENT' });
+  };
+
+  return (
+    <div>
+      <h1>{count}</h1>
+      <button onClick={handleClick}>Increment</button>
+    </div>
+  );
+}
+
+🧠 Why Use Flux?
+- Predictable state updates
+- Clear separation of concerns
+- Scales well with complex apps
+- Foundation for Redux and other modern state libraries
+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
 
