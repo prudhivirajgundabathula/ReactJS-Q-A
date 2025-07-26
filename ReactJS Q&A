@@ -1738,3 +1738,80 @@ Now if it crashes, the rest of your app stays intact.
 - Combine with logging tools like Sentry or LogRocket
 - For functional components, try the  package
 ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+ReactJS, keys are special string attributes used to uniquely identify elements in a list. They help React optimize rendering by tracking which items have changed, been added, or removed. Without keys, React has to re-render entire lists—even if only one item changed.
+
+🧠 Why Are Keys Important?
+- Efficient DOM updates: React uses keys to minimize re-renders.
+- Preserve component state: Keys help React maintain state between renders.
+- Avoid rendering bugs: Especially when adding/removing/reordering items.
+
+🛠️ Basic Example
+const numbers = [1, 2, 3, 4, 5];
+
+const listItems = numbers.map((num) =>
+  <li key={num}>{num}</li>
+);
+
+return <ul>{listItems}</ul>;
+
+Here, each <li> gets a unique key based on its value.
+
+⚠️ Common Mistake: Using Index as Key
+items.map((item, index) => <li key={index}>{item}</li>);
+
+This works only if:
+- The list is static
+- Items won’t be reordered or removed
+Otherwise, it can cause rendering issues like incorrect input values or lost component state.
+
+✅ Best Practice
+Use a stable, unique identifier like an id from your data:
+items.map((item) => <li key={item.id}>{item.name}</li>);
+
+🔍 Keys vs Props
+| Feature | Keys | Props | 
+| Purpose | Identify elements in a list | Pass data to components | 
+| Scope | Internal to React | Accessible inside components | 
+| Visibility | Not available in component props | Available via props object | 
+
+🧪 Real-World Use Case
+Imagine rendering a list of HL7 events or Kafka logs. If you use event.id as the key, React can efficiently update only the changed logs—keeping your dashboard snappy and accurate.
+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+In ReactJS, keys are special string attributes used to uniquely identify elements in a list. They help React optimize rendering by tracking which items have changed, been added, or removed. Without keys, React has to re-render entire lists—even if only one item changed.
+
+🧠 Why Are Keys Important?
+- Efficient DOM updates: React uses keys to minimize re-renders.
+- Preserve component state: Keys help React maintain state between renders.
+- Avoid rendering bugs: Especially when adding/removing/reordering items.
+
+🛠️ Basic Example
+const numbers = [1, 2, 3, 4, 5];
+
+const listItems = numbers.map((num) =>
+  <li key={num}>{num}</li>
+);
+
+return <ul>{listItems}</ul>;
+
+Here, each <li> gets a unique key based on its value.
+
+⚠️ Common Mistake: Using Index as Key
+items.map((item, index) => <li key={index}>{item}</li>);
+
+This works only if:
+- The list is static
+- Items won’t be reordered or removed
+Otherwise, it can cause rendering issues like incorrect input values or lost component state.
+
+✅ Best Practice
+Use a stable, unique identifier like an id from your data:
+items.map((item) => <li key={item.id}>{item.name}</li>);
+
+🔍 Keys vs Props
+| Feature | Keys | Props | 
+| Purpose | Identify elements in a list | Pass data to components | 
+| Scope | Internal to React | Accessible inside components | 
+| Visibility | Not available in component props | Available via props object | 
+
+🧪 Real-World Use Case
+Imagine rendering a list of HL7 events or Kafka logs. If you use event.id as the key, React can efficiently update only the changed logs—keeping your dashboard snappy and accurate.
