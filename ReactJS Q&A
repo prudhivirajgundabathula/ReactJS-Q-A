@@ -2436,5 +2436,41 @@ What has been deprecated is Create React App (CRA) — the tool many developers 
 | React Router (Framework Mode) | Client-side routing | Flexible and integrates well with React features | 
 | Expo | React Native apps | Cross-platform support for mobile and web | 
 --------------------------------------------------------------------------------------------------------------------------------------------------------------------
+Redux Thunk : Redux Thunk is a middleware for Redux that lets you write action creators that return a function instead of a plain action object. This function (called a thunk) can contain asynchronous logic, like API calls, and still interact with the Redux store by dispatching actions and accessing state.
 
+⚙️ Why Use Redux Thunk?
+- Async Operations: Handle API calls, timeouts, or any delayed logic
+- Conditional Dispatching: Dispatch actions only when certain conditions are met
+- Access to State: Use getState() inside thunks to make decisions based on current store data
+- Side Effects Management: Keep side effects out of components for better separation of concerns
+
+🧠 How It Works
+A typical thunk looks like this:
+const fetchUser = (userId) => {
+  return async (dispatch, getState) => {
+    dispatch({ type: 'FETCH_USER_START' });
+    try {
+      const response = await fetch(`/api/users/${userId}`);
+      const data = await response.json();
+      dispatch({ type: 'FETCH_USER_SUCCESS', payload: data });
+    } catch (error) {
+      dispatch({ type: 'FETCH_USER_FAILURE', error });
+    }
+  };
+};
+
+You dispatch it like a regular action:
+dispatch(fetchUser(42));
+
+🛠️ Setup
+If you're using Redux Toolkit, thunk is included by default:
+import { configureStore } from '@reduxjs/toolkit';
+const store = configureStore({
+  reducer: rootReducer,
+});
+If you're using plain Redux:
+npm install redux-thunk
+import { createStore, applyMiddleware } from 'redux';
+import thunk from 'redux-thunk';
+const store = createStore(rootReducer, applyMiddleware(thunk));
 -----------------------------------------------------------------------------------------------------------------------------------------------------------------------
