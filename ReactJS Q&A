@@ -2411,3 +2411,30 @@ componentDidUpdate(prevProps, prevState, snapshot) {
 - Often paired with componentDidUpdate()
 - Not needed for most components—use only when DOM state matters before update
 -------------------------------------------------------------------------------------------------------------------------------------------------------------------
+As of March 2025, the latest stable version of ReactJS is React 19.1.0.
+
+🚀 Key Highlights of React 19
+- Server Components: Render components on the server for faster load times and better SEO
+- New Directives: 'use client' and 'use server' to control execution context
+- Actions & Server Actions: Simplify form handling and server-side logic
+- New Hooks:
+- useActionState
+- useFormStatus
+- useOptimistic
+- useDeferredValue
+- New API: use() for reading async resources directly in render
+- Improved Suspense: Enhanced support for async rendering and fallback UI
+- Concurrent Rendering: Smarter scheduling for smoother UX
+- React Compiler (Beta): Optimizes rendering and improves performance
+
+What has been deprecated is Create React App (CRA) — the tool many developers used to scaffold React projects. The React team officially sunset CRA in February 2025 due to its limitations and lack of active maintainers. It’s now in maintenance mode and not recommended for new projects.
+
+🔄 What to Use Instead : Here are the modern alternatives the React team and community recommend:
+| Tool/Framework | Purpose | Why It’s Preferred | 
+| Next.js | Full-stack React framework | Built-in routing, SSR, and Server Components | 
+| Vite | Lightweight build tool | Fast dev server, great DX, CRA migration guides available | 
+| React Router (Framework Mode) | Client-side routing | Flexible and integrates well with React features | 
+| Expo | React Native apps | Cross-platform support for mobile and web | 
+--------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+-----------------------------------------------------------------------------------------------------------------------------------------------------------------------
