@@ -1682,6 +1682,180 @@ const countRef = useRef(0);
 If you're building a controlled input, use useState.
 If you're tracking a debounce timer or scroll position, use useRef.
 -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+React hooks : Custom Hook ? : Custom Hooks in React are like reusable logic containers—they let you extract and share stateful behavior across components without repeating code. Since you're already deep into scalable architecture, Prudhivi, custom hooks are a great way to keep your components lean and your logic modular.
+
+🧠 What Is a Custom Hook?
+A custom hook is just a JavaScript function that:
+- Starts with use (e.g. useFetch, useCounter)
+- Uses built-in hooks like useState, useEffect, useContext, etc.
+- Returns values or functions that your component can use
+function useCounter(initialValue = 0) {
+  const [count, setCount] = useState(initialValue);
+  const increment = () => setCount(prev => prev + 1);
+  return [count, increment];
+}
+
+🛠️ How to Use It
+function CounterComponent() {
+  const [count, increment] = useCounter();
+  return (
+    <div>
+      <p>Count: {count}</p>
+      <button onClick={increment}>Increment</button>
+    </div>
+  );
+}
+✅ Keeps your component focused on UI
+✅ Logic lives in the hook, reusable across components
+
+🔁 Real-World Use Cases
+| Hook Name | Purpose | 
+| useFetch | Encapsulate API calls and loading state | 
+| useFormInput | Manage form field state and handlers | 
+| useOnlineStatus | Track network connectivity | 
+| useDebounce | Delay value updates for performance | 
+| useAuth | Centralize authentication logic | 
+
+🧬 Benefits
+- Reusability: Share logic across components
+- Encapsulation: Hide implementation details
+- Testability: Easier to unit test logic separately
+- Composability: Combine multiple hooks for complex behavior
+
+UseCallback :  useCallback
+Purpose: Memoizes a function so it doesn’t get recreated on every render.
+When to use:
+- Passing functions to child components to avoid unnecessary re-renders
+- Functions used inside useEffect or other hooks as dependencies
+const memoizedFn = useCallback(() => {
+  doSomething();
+}, [dependency]);
+✅ Keeps function reference stable
+✅ Useful in performance-critical components
+
+🧠 useMemo
+Purpose: Memoizes the result of a computation.
+When to use:
+- Expensive calculations (e.g., filtering large arrays, sorting)
+- Derived state that doesn’t need to recompute unless dependencies change
+const computedValue = useMemo(() => {
+  return heavyCalculation(data);
+}, [data]);
+✅ Avoids recalculating unless needed
+✅ Great for optimizing render cycles
+
+🌐 useContext
+Purpose: Accesses context values without prop drilling.
+When to use:
+- Sharing global state (like theme, auth, user settings)
+- Avoiding prop chains across deeply nested components
+const theme = useContext(ThemeContext);
+✅ Simplifies state access
+✅ Works well with Context.Provider for global config
+
+🧩 Quick Comparison
+| Hook | Memoizes | Used For | Common Use Case | 
+| useCallback | Function | Preventing function recreation | Event handlers passed to child components | 
+| useMemo | Value | Avoiding expensive recalculations | Derived data like filtered lists | 
+| useContext | N/A | Accessing shared state | Theme, Auth, Language settings | 
+-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+React.memo and useMemo are both performance optimization tools in React, but they serve different purposes and operate at different levels of your component architecture. Here's a breakdown tailored to your system design mindset, Prudhivi:
+
+🧩 Core Difference
+| Feature | React.memo | useMemo | 
+| Type | Higher-Order Component (HOC) | React Hook | 
+| Purpose | Memoizes entire component render output | Memoizes result of expensive computation | 
+| Used For | Preventing re-renders when props don’t change | Avoiding recalculation of derived values | 
+| Return Value | A memoized component | A memoized value | 
+| Dependency | Props | Custom dependency array | 
+
+🧠 React.memo
+- Wraps a functional component to prevent re-rendering if props haven’t changed.
+- Performs a shallow comparison of props.
+- Ideal for pure components that rely only on props.
+const MyComponent = React.memo((props) => {
+  return <div>{props.name}</div>;
+});
+✅ Best for optimizing child components in large trees
+✅ Can accept a custom comparison function for deep checks
+
+🧮 useMemo
+- Memoizes the result of a function inside a component.
+- Recomputes only when dependencies change.
+- Useful for expensive calculations or derived state.
+const filteredData = useMemo(() => {
+  return data.filter(item => item.active);
+}, [data]);
+✅ Keeps render cycles lean
+✅ Great for avoiding recalculations in dynamic UIs
+
+🧪 Real-World Analogy
+Imagine you're building a financial dashboard:
+- Use React.memo to wrap a <PortfolioCard /> so it doesn’t re-render unless its props (like investmentData) change.
+- Use useMemo inside the dashboard to compute totalReturns from investmentData only when the data updates—not on every render.
+-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+useEffect replaces which lifecycle method / methods ?
+useEffect in React is a versatile hook that can replicate multiple lifecycle methods from class components depending on how it's used. Here's a clear mapping for you, Prudhivi:
+
+🔄 Lifecycle Equivalents of useEffect
+| Class Lifecycle Method | useEffect Equivalent Syntax | Purpose | 
+| componentDidMount | useEffect(() => { ... }, []) | Runs once after initial render | 
+| componentDidUpdate | useEffect(() => { ... }, [dependencies]) | Runs after updates when dependencies change | 
+| componentWillUnmount | useEffect(() => { return () => { ... } }, []) | Cleanup logic when component unmounts | 
+
+🧠 How It Works
+- Mounting: Empty dependency array [] ensures the effect runs only once.
+- Updating: Add dependencies to the array to trigger effect on change.
+- Unmounting: Return a cleanup function inside the effect to mimic teardown.
+
+useEffect(() => {
+  const timer = setInterval(() => console.log("Tick"), 1000);
+ return () => {
+    clearInterval(timer); // componentWillUnmount
+  };
+}, []);
+
+🧪 Bonus Tip
+To simulate componentDidUpdate without running on initial mount, use a useRef flag:
+const isFirstRender = useRef(true);
+
+useEffect(() => {
+  if (isFirstRender.current) {
+    isFirstRender.current = false;
+    return;
+  }
+  // componentDidUpdate logic here
+}, [someDependency]);
+-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+Event : In React, an event refers to any interaction a user has with the UI—like clicking a button, typing in a field, or submitting a form. React wraps native browser events in a synthetic event system, which ensures consistent behavior across different browsers.
+
+⚙️ Common React Events
+| Event Name | Triggered By | Typical Use Case | 
+| onClick | Mouse click | Buttons, toggles | 
+| onChange | Input value change | Forms, search fields | 
+| onSubmit | Form submission | Handling form data | 
+| onKeyDown | Key press | Keyboard shortcuts, validation | 
+| onMouseEnter | Mouse hover | Tooltips, hover effects | 
+
+🧠 How Events Work in React
+- React uses camelCase for event names (onClick, not onclick)
+- Event handlers are passed as functions, not called directly
+- Events are synthetic, meaning React wraps native events for performance and consistency
+function MyButton() {
+  function handleClick() {
+    alert("Button clicked!");
+  }
+
+  return <button onClick={handleClick}>Click Me</button>;
+}
+
+🧪 Bonus: Prevent Default Behavior
+To stop the browser’s default action (like page reload on form submit):
+function handleSubmit(e) {
+  e.preventDefault(); // stops page reload
+  console.log("Form submitted!");
+}
+-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 React’s Strict Mode is like a developer’s spotlight—it helps you catch bugs and legacy patterns early, without affecting your production build. It doesn’t render any visible UI, but it wraps components to activate extra checks during development.
 
 🔍 What It Does
