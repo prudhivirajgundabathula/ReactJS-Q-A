@@ -2372,3 +2372,42 @@ return <Dashboard data={data} />;
 ✅ Keeps return block clean
 ✅ Improves maintainability
 --------------------------------------------------------------------------------------------------------------------------------------------------------------------
+In ReactJS, getSnapshotBeforeUpdate() is a rare but powerful lifecycle method used in class-based components. It allows you to capture information from the DOM right before it changes, typically for things like scroll position, focus state, or layout measurements.
+
+🧠 Purpose
+- Called after render() but before the DOM is updated
+- Lets you capture a “snapshot” of the DOM (e.g., scroll position)
+- The returned value is passed as the third argument to componentDidUpdate()
+
+🛠️ Syntax
+getSnapshotBeforeUpdate(prevProps, prevState) {
+  // Capture something from the DOM
+  return snapshotValue; // Can be any type or null
+}
+
+componentDidUpdate(prevProps, prevState, snapshot) {
+  // Use the snapshot value here
+}
+
+📦 Real-World Use Case: Scroll Position in a Chat App
+getSnapshotBeforeUpdate(prevProps, prevState) {
+  if (prevState.messages.length < this.state.messages.length) {
+    const chatWindow = this.chatRef.current;
+    return chatWindow.scrollHeight - chatWindow.scrollTop;
+  }
+  return null;
+}
+
+componentDidUpdate(prevProps, prevState, snapshot) {
+  if (snapshot !== null) {
+    const chatWindow = this.chatRef.current;
+    chatWindow.scrollTop = chatWindow.scrollHeight - snapshot;
+  }
+}
+✅ This keeps the user’s scroll position stable when new messages arrive.
+🔍 Key Notes
+- Only available in class components
+- No direct hook equivalent (yet)
+- Often paired with componentDidUpdate()
+- Not needed for most components—use only when DOM state matters before update
+-------------------------------------------------------------------------------------------------------------------------------------------------------------------
