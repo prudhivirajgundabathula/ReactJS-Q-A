@@ -961,15 +961,49 @@ render() {
     );
 }
 componentDidMount() Function : This function is invoked right after the component is mounted on the DOM, i.e. this function gets invoked once after the render() function is executed for the first time.
+componentDidMount() is a class component lifecycle method that runs once, immediately after the component is inserted into the DOM. Think of it as the “setup phase” for anything that needs to happen after the initial render.
 
-componentDidMount() {
-    console.log("Component has been mounted");
+🧠 Why Use componentDidMount()?
+It’s ideal for:
+- Fetching data from APIs
+- Setting up subscriptions (e.g., WebSockets)
+- Initializing third-party libraries
+- DOM measurements or manipulations
+- Starting timers or animations
 
-    // Example: Fetch data from an API
-    fetch("https://api.example.com/data")
-        .then(response => response.json())
-        .then(data => this.setState({ data }));
+🛠️ Syntax
+class MyComponent extends React.Component {
+  componentDidMount() {
+    // Runs once after initial render
+    console.log('Component mounted!');
+  }
+
+  render() {
+    return <div>Hello World</div>;
+  }
 }
+
+🔍 Real-World Example: Fetching Data
+class UserList extends React.Component {
+  state = { users: [], loading: true };
+
+  componentDidMount() {
+    fetch('https://api.example.com/users')
+      .then(res => res.json())
+      .then(data => this.setState({ users: data, loading: false }))
+      .catch(err => console.error(err));
+  }
+
+  render() {
+    const { users, loading } = this.state;
+    return loading ? <p>Loading...</p> : <ul>{users.map(u => <li key={u.id}>{u.name}</li>)}</ul>;
+  }
+}
+✅ This ensures the data is fetched after the component is mounted, avoiding premature API calls.
+⚠️ Best Practices
+- Avoid heavy logic inside componentDidMount()—keep it lean
+- Always clean up side effects in componentWillUnmount() (e.g., timers, listeners)
+- Don’t use it for initial state setup—that belongs in the constructor
 
 2. Updation : Updating refers to the process of a component being re-rendered due to changes in its state or props. This phase occurs whenever a component's internal state is modified or its parent component passes new props. When an update happens, React re-renders the component to reflect the changes and ensures that the DOM is updated accordingly.
 
@@ -1091,7 +1125,7 @@ In functional components, hooks like useState() and useEffect() make it easier t
 Conclusion
 The React component lifecycle is essential for managing component behavior, handling state and props, and optimizing performance. By effectively utilizing lifecycle methods, developers can ensure efficient rendering and proper resource management throughout the component’s life.
 --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-actJS, a Higher-Order Component (HOC) is a design pattern that lets you reuse component logic by wrapping one component inside another. It’s not a feature of React itself, but a pattern that emerges from React’s compositional nature.
+ReactJS, a Higher-Order Component (HOC) is a design pattern that lets you reuse component logic by wrapping one component inside another. It’s not a feature of React itself, but a pattern that emerges from React’s compositional nature.
 
 🧠 What Is a Higher-Order Component?
 A HOC is a function that:
