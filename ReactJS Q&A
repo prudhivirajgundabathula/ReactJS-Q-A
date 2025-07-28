@@ -2474,3 +2474,40 @@ import { createStore, applyMiddleware } from 'redux';
 import thunk from 'redux-thunk';
 const store = createStore(rootReducer, applyMiddleware(thunk));
 -----------------------------------------------------------------------------------------------------------------------------------------------------------------------
+Preventing unnecessary re-renders in React is key to building performant apps — especially when you're working with deeply nested components or frequent state updates. Here’s a tactical breakdown tailored to your backend-optimization mindset:
+
+🧠 Why React Re-renders
+React re-renders a component when:
+- Its state or props change
+- Its parent re-renders and passes new props
+- A context value it consumes changes
+
+🛡️ Strategies to Prevent Unnecessary Re-renders
+| Technique | Purpose | Example | 
+| React.memo | Memoizes functional components | const MyComp = React.memo(() => {...}) | 
+| useMemo | Memoizes expensive calculations | const result = useMemo(() => compute(), [deps]) | 
+| useCallback | Memoizes functions passed as props | const handleClick = useCallback(() => {...}, [deps]) | 
+| useRef | Stores mutable values without triggering re-renders | const ref = useRef(initialValue) | 
+| Split State | Isolate unrelated state to avoid cascading updates | Separate useState hooks for independent values | 
+| Avoid Inline Props | Prevent new object/function references | Move styles/functions outside render or memoize them | 
+
+🔍 Real-World Example
+const Filter = React.memo(({ onChange }) => {
+  console.log('Filter rendered');
+  return <input onChange={(e) => onChange(e.target.value)} />;
+});
+
+function App() {
+  const [query, setQuery] = useState('');
+  const handleChange = useCallback((text) => setQuery(text), []);
+    return <Filter onChange={handleChange} />;
+}
+
+Here, Filter won’t re-render unless handleChange changes — and since it’s memoized with useCallback, it stays stable.
+⚠️ Common Pitfalls
+- Passing new objects/functions as props: Triggers re-renders even if values are the same
+- Updating state unnecessarily: Avoid setting state if the value hasn’t changed
+- Not using keys properly in lists: Causes React to remount components
+-------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+---------------------------------------------------------------------------------------------------------------------------------------------------------------------
