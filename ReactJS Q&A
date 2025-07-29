@@ -2960,5 +2960,52 @@ return <ul>{items}</ul>;
 - Avoid using index as a key if the list can change dynamically.
 - You can also use filter, reduce, or even forEach—as long as they return valid JSX.
 -------------------------------------------------------------------------------------------------------------------------------------------------------------------
+The React Context API is a powerful tool for managing global state without prop drilling—perfect for scalable apps like dashboards, multi-tenant systems, or investment trackers.
 
+🧠 What Is Context API?
+It’s a state-sharing mechanism that lets you pass data deeply through the component tree without manually passing props at every level.
+🔁 Traditional Prop Drilling
+<Parent value={theme}>
+  <Child value={theme}>
+    <GrandChild value={theme} />
+  </Child>
+</Parent>
+
+✅ With Context API
+<ThemeContext.Provider value={theme}>
+  <GrandChild /> // accesses theme directly via useContext
+</ThemeContext.Provider>
+
+🛠️ How to Use Context API
+1. Create Context
+import { createContext } from 'react';
+export const ThemeContext = createContext('light');
+
+2. Provide Context
+Wrap your component tree with the provider:
+<ThemeContext.Provider value="dark">
+  <App />
+</ThemeContext.Provider>
+
+3. Consume Context
+Use useContext inside any child component:
+import { useContext } from 'react';
+import { ThemeContext } from './ThemeContext';
+
+const Button = () => {
+  const theme = useContext(ThemeContext);
+  return <button className={`btn-${theme}`}>Click</button>;
+};
+
+🔍 Real-World Use Cases
+| Use Case | Why Context Works Well | 
+| Theme toggling | Avoids passing theme props everywhere | 
+| Auth state | Share login status across components | 
+| Language settings | Centralize locale preferences | 
+| Investment filters | Share filter state across portfolio views | 
+| Cricket dashboard | Share match context across stat widgets | 
+
+⚠️ When Not to Use Context
+- For frequently changing state (e.g. mouse position)—can cause unnecessary re-renders
+- For deeply nested updates—consider Redux or Zustand for better control
 -------------------------------------------------------------------------------------------------------------------------------------------------------------------
