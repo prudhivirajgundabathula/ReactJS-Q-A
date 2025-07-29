@@ -3182,3 +3182,51 @@ Even though the portal renders outside the DOM hierarchy, it still behaves like 
 - Portals don’t automatically handle focus management—important for accessibility
 - You must ensure the target DOM node exists before rendering
 --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+Stateful vs Stateless  : stateless vs stateful components is key to designing scalable React apps—especially when you're optimizing dashboards or building reusable UI for financial or cricket analytics.
+
+🧠 Stateless Components (aka Functional or Presentational)
+These components do not manage internal state. They simply receive data via props and render UI.
+✅ Characteristics
+- No internal state (useState not used unless enhanced with hooks)
+- Pure functions: same input → same output
+- Easier to test and reuse
+- Ideal for static UI or display logic
+🧪 Example
+const PlayerCard = ({ name, score }) => (
+  <div>
+    <h3>{name}</h3>
+    <p>Score: {score}</p>
+  </div>
+);
+
+🔁 Stateful Components (Class or Hook-based Functional)
+These components manage their own state and often handle side effects or user interactions.
+✅ Characteristics
+- Use useState, useEffect, or class-based this.state
+- Can respond to user input, API calls, etc.
+- More complex, but powerful
+- Ideal for forms, modals, dynamic dashboards
+🧪 Example
+const ScoreTracker = () => {
+  const [score, setScore] = useState(0);
+
+  return (
+    <div>
+      <p>Score: {score}</p>
+      <button onClick={() => setScore(score + 1)}>Add Run</button>
+    </div>
+  );
+};
+
+
+⚖️ Comparison Table
+| Feature | Stateless Component | Stateful Component | 
+| Manages state | ❌ No | ✅ Yes | 
+| Lifecycle methods | ❌ Not applicable | ✅ Available via hooks/class | 
+| Reusability | ✅ High | ⚠️ Depends on logic | 
+| Complexity | ✅ Simple | ⚠️ More complex | 
+| Use case | Display-only UI | Interactive or dynamic UI | 
+
+🧩 With Hooks, the Line Blurs
+Thanks to useState and useEffect, functional components can now be stateful, making them more versatile than ever.
+-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
