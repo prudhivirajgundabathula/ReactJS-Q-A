@@ -3813,3 +3813,230 @@ const rootReducer = (state, action) => {
 
 Then pass rootReducer to configureStore().
 -----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+ownProps parameter in mapStateToProps() and mapDispatchToProps() ? : The ownProps parameter in mapStateToProps and mapDispatchToProps gives you access to the props passed to your connected component—allowing you to tailor Redux state and dispatch logic based on those props.
+
+🧠 What is ownProps?
+When you connect a component using connect(mapStateToProps, mapDispatchToProps), Redux can pass the component’s external props (from its parent) as the second argument:
+const mapStateToProps = (state, ownProps) => {
+  return {
+    userData: state.users[ownProps.userId] // customize based on prop
+  };
+};
+
+const mapDispatchToProps = (dispatch, ownProps) => {
+  return {
+    updateUser: () => dispatch(updateUser(ownProps.userId)) // scoped action
+  };
+};
+
+📦 Why Use ownProps?
+- Dynamic Data Selection: Fetch specific slices of state based on props (e.g., userId, postId)
+- Scoped Dispatching: Bind action creators with context-specific parameters
+- Reusable Components: Make components more generic and configurable
+
+⚠️ Performance Tip
+Using ownProps means your functions will re-run not only when Redux state changes, but also when component props change. So avoid using it unless necessary to prevent extra renders.
+
+🧪 Example: BlogPost Component
+// BlogPostContainer.js
+const mapStateToProps = (state, ownProps) => ({
+  post: state.posts[ownProps.id]
+});
+
+const mapDispatchToProps = (dispatch, ownProps) => ({
+  editPost: () => dispatch(editPost(ownProps.id))
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(BlogPost);
+
+Now you can use it like:
+<BlogPostContainer id={42} />
+
+And the component will receive post and editPost() scoped to id=42.
+-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+Ajax requests in Redux ? : To handle AJAX requests in Redux, you typically use middleware like redux-thunk or redux-saga to manage asynchronous logic. Here's a breakdown tailored to your backend optimization mindset, Prudhivi:
+
+⚙️ Using redux-thunk for AJAX
+redux-thunk lets you write action creators that return a function instead of an action. This function can perform async operations like API calls.
+🔧 Setup
+npm install redux-thunk
+
+Then apply it to your store:
+import { createStore, applyMiddleware } from 'redux';
+import thunk from 'redux-thunk';
+
+const store = createStore(rootReducer, applyMiddleware(thunk));
+
+
+📡 Async Action Example with fetch
+// actions.js
+export const fetchUsers = () => {
+  return async (dispatch) => {
+    dispatch({ type: 'FETCH_USERS_REQUEST' });
+
+    try {
+      const response = await fetch('/api/users');
+      const data = await response.json();
+      dispatch({ type: 'FETCH_USERS_SUCCESS', payload: data });
+    } catch (error) {
+      dispatch({ type: 'FETCH_USERS_FAILURE', error });
+    }
+  };
+};
+
+
+🧠 Reducer
+const initialState = {
+  loading: false,
+  users: [],
+  error: null
+};
+
+function usersReducer(state = initialState, action) {
+  switch (action.type) {
+    case 'FETCH_USERS_REQUEST':
+      return { ...state, loading: true };
+    case 'FETCH_USERS_SUCCESS':
+      return { ...state, loading: false, users: action.payload };
+    case 'FETCH_USERS_FAILURE':
+      return { ...state, loading: false, error: action.error };
+    default:
+      return state;
+  }
+}
+
+🚀 Alternatives
+- redux-saga: More powerful for complex workflows, like retry logic or parallel requests.
+- RTK Query (Redux Toolkit): Built-in data fetching and caching—ideal for modern Redux apps.
+- redux-requests: Declarative AJAX with automatic state management.
+-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+MVVM explain ?  Advantages ? DisAdvantages ? Limitation ? : Let’s break down the MVVM (Model-View-ViewModel) architectural pattern with clarity and depth—perfect for your methodical mindset and system design focus.
+
+🧱 What is MVVM?
+MVVM stands for Model–View–ViewModel. It’s a software architecture pattern that helps separate concerns in UI-based applications, especially in frameworks like WPF, Xamarin, Android, and even React (with adaptations).
+| Component | Role | 
+| Model | Represents the business logic and data (e.g., API calls, DB access). | 
+| View | The UI layer—what the user sees and interacts with. | 
+| ViewModel | Acts as a bridge between Model and View. Handles presentation logic. | 
+
+
+The ViewModel exposes data and commands to the View via data binding, enabling a reactive and testable UI.
+
+✅ Advantages of MVVM
+- Separation of Concerns: Cleanly separates UI from business logic.
+- Testability: ViewModels are easy to unit test since they don’t depend on UI.
+- Maintainability: Changes in UI or logic can be made independently.
+- Reusability: ViewModels can be reused across different Views.
+- Designer–Developer Workflow: Designers can work on Views while developers focus on logic.
+- Two-Way Data Binding: Automatic UI updates when data changes (especially in WPF, Angular, etc.).
+
+❌ Disadvantages of MVVM
+- Overkill for Simple UIs: Adds unnecessary complexity for small apps.
+- Steep Learning Curve: Requires understanding of data binding, observables, and command patterns.
+- Debugging Complexity: Declarative bindings can be harder to trace than imperative code.
+- ViewModel Bloat: Can become bloated if not modularized properly.
+- Tooling Dependency: Relies heavily on frameworks that support binding (e.g., XAML, RxJS).
+
+🚧 Limitations
+- Performance Overhead: Excessive bindings and observers can impact performance.
+- Not Ideal for All Platforms: MVVM shines in declarative UI frameworks but may feel unnatural in imperative ones.
+- State Management Challenges: Complex state flows can be hard to model cleanly.
+- Requires Binding Infrastructure: Without proper binding tools, MVVM loses its edge.
+
+🧪 Real-World Use Case
+Imagine a cricket analytics dashboard:
+- Model: Fetches player stats from an API.
+- ViewModel: Filters and formats stats (e.g., strike rate, economy) for display.
+- View: Displays graphs, tables, and filters—bound to ViewModel properties.
+This separation lets you tweak the UI without touching logic, or swap out the data source without breaking the UI.
+-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+how to increase React-app and react website performance ? : Boosting the performance of your React app or website is all about smart rendering, efficient data handling, and minimizing unnecessary work—both on the client and server. Here's a comprehensive guide tailored to your optimization mindset, Prudhivi:
+
+⚙️ Rendering Optimization
+- Use React.memo and PureComponent to prevent unnecessary re-renders of components when props haven’t changed.
+- Avoid inline functions and objects in JSX—they create new references on every render.
+- Use useCallback and useMemo to memoize functions and expensive computations.
+- Split large lists using virtualization libraries like react-window or react-virtualized.
+
+📦 Bundle & Asset Optimization
+- Code splitting with React.lazy and Suspense reduces initial load time by loading components only when needed.
+- Use production mode in Webpack to enable minification and tree-shaking (mode: 'production').
+- Compress assets using GZIP or Brotli and serve via CDN for faster delivery.
+- Lazy load images using react-lazyload or Intersection Observer API.
+
+🧠 State & Data Management
+- Keep state local when possible to avoid unnecessary re-renders across the app.
+- Use useReducer for complex state logic to reduce re-renders and improve clarity.
+- Use immutable data structures to ensure predictable updates and shallow comparisons.
+
+🚀 Advanced Techniques
+- Use Web Workers for heavy computations off the main thread.
+- Throttle and debounce events like scroll or resize to reduce render frequency.
+- Profile with React DevTools to identify bottlenecks and flame charts.
+- Use useTransition for smoother UI updates in concurrent mode.
+
+🧪 Real-World Example: Cricket Dashboard
+Imagine a dashboard showing live match stats:
+- Use React.memo for player cards
+- Virtualize score lists with react-window
+- Lazy load highlight videos
+- Cache API responses with SWR or RTK Query
+- Split routes using React.lazy
+-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+Store Management(Redux) : Redux store management is all about centralizing your app’s state and making updates predictable and traceable. Here's a structured breakdown to match your methodical style:
+
+🧠 Core Concepts of Redux Store
+| Concept | Description | 
+| Store | Holds the entire state tree of your app. Created using createStore() or configureStore() from Redux Toolkit. | 
+| Actions | Plain JS objects that describe what happened. Must include a type field. | 
+| Reducers | Pure functions that take current state and action, and return new state. | 
+| Dispatch | Method to send actions to the store. Triggers reducer logic. | 
+| Subscribe | Allows components to listen for state changes. | 
+
+⚙️ Setting Up the Store
+import { configureStore } from '@reduxjs/toolkit';
+import rootReducer from './reducers';
+
+const store = configureStore({
+  reducer: rootReducer,
+});
+
+
+Use Provider from react-redux to make the store available to your app:
+import { Provider } from 'react-redux';
+import store from './store';
+
+<Provider store={store}>
+  <App />
+</Provider>
+
+
+🔄 Connecting Components
+Use useSelector and useDispatch for functional components:
+import { useSelector, useDispatch } from 'react-redux';
+import { increment } from './counterSlice';
+
+const Counter = () => {
+  const count = useSelector(state => state.counter.value);
+  const dispatch = useDispatch();
+
+  return (
+    <button onClick={() => dispatch(increment())}>
+      Count: {count}
+    </button>
+  );
+};
+
+🚀 Performance Tips
+- Use Redux Toolkit: It simplifies setup and avoids boilerplate.
+- Split reducers using combineReducers for modularity.
+- Normalize state to avoid deep nesting and improve selector performance.
+- Use memoized selectors with reselect for derived data.
+- Avoid storing non-serializable data (like functions or class instances) in the store.
+
+🧪 Scenario-Based Example: Cricket Stats Tracker
+Imagine a Redux store managing live match data:
+- matchReducer handles score updates.
+- playerReducer tracks individual performance.
+- Actions like UPDATE_SCORE, ADD_PLAYER_STATS are dispatched from UI or WebSocket events.
+- Selectors extract top performers or match summaries.
