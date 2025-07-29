@@ -4074,3 +4074,38 @@ In a React app with Redux:
 - Stylelint: CSS/SCSS linting
 - Husky + lint-staged: Run checks before commits
 - SonarQube / Codacy: Code quality and security analysis
+------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+What should we avoid ? Avoiding pitfalls is just as important as following best practices—especially when you're building scalable systems or clean React apps. Here's a curated list of things to steer clear of when it comes to coding standards:
+
+🚫 Common Coding Pitfalls to Avoid
+1. Hardcoding Values
+- Embedding config, credentials, or magic numbers directly in code makes it brittle and insecure.
+- ✅ Use environment variables or config files instead.
+2. Poor Naming Conventions
+- Names like x1, temp, or data offer no clarity.
+- ✅ Use descriptive, consistent naming (userAge, fetchMatchStats).
+3. Long, Monolithic Functions
+- Functions doing too much are hard to test and debug.
+- ✅ Break into smaller, single-responsibility units.
+4. Overuse of Global Variables
+- Leads to unpredictable behavior and tight coupling.
+- ✅ Prefer scoped variables or state management tools like Redux.
+5. Copy-Paste Without Abstraction
+- Duplicated logic increases maintenance overhead.
+- ✅ Abstract reusable logic into functions or components.
+6. Skipping Error Handling
+- Ignoring errors can crash apps or expose vulnerabilities.
+- ✅ Use structured try-catch blocks and meaningful messages.
+7. Over-Engineering Simple Solutions
+- Using complex patterns for basic tasks adds unnecessary complexity.
+- ✅ Follow YAGNI: “You Aren’t Gonna Need It.”
+8. Neglecting Comments & Documentation
+- Code without context is hard to maintain.
+- ✅ Comment the “why,” not the “what,” and keep docs updated.
+9. Ignoring Security Practices
+- Hardcoded secrets, unvalidated inputs, and outdated libraries are risky.
+- ✅ Validate inputs, update dependencies, and use secure storage.
+10. Blindly Trusting AI-Generated Code
+- AI can help, but it may introduce outdated or insecure patterns.
+- ✅ Always review and refactor AI-generated snippets.
+--------------------------------------------------------------------
