@@ -2174,6 +2174,54 @@ function counterReducer(state = initialState, action) {
 }
 
 ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+Reducer : In React, a reducer is a pure function that determines how state should change in response to an action. It's the backbone of the useReducer hook, which is especially useful when your component's state logic becomes complex or involves multiple sub-values—something I know you're comfortable navigating, Prudhivi.
+
+🧠 What Is a Reducer?
+A reducer takes two arguments:
+- state: the current state
+- action: an object describing what happened
+It returns a new state based on the action.
+function reducer(state, action) {
+  switch (action.type) {
+    case 'INCREMENT':
+      return { count: state.count + 1 };
+    case 'DECREMENT':
+      return { count: state.count - 1 };
+    default:
+      return state;
+  }
+}
+
+⚙️ How to Use It with useReducer
+const initialState = { count: 0 };
+
+function Counter() {
+  const [state, dispatch] = useReducer(reducer, initialState);
+
+  return (
+    <div>
+      <p>Count: {state.count}</p>
+      <button onClick={() => dispatch({ type: 'INCREMENT' })}>+</button>
+      <button onClick={() => dispatch({ type: 'DECREMENT' })}>-</button>
+    </div>
+  );
+}
+✅ dispatch sends an action
+✅ reducer decides how to update state
+✅ React re-renders with the new state
+
+🔍 Why Use a Reducer?
+| Scenario | Why Reducer Helps | 
+| Multiple state transitions | Centralizes logic | 
+| Complex updates based on previous state | Keeps updates predictable | 
+| Shared logic across components | Can be abstracted into custom hooks | 
+
+🧪 Real-World Analogy
+Think of a reducer like a warehouse manager:
+- You (dispatch) send a request: “Ship 5 units of product A”
+- The manager (reducer) checks inventory and updates the stock
+- The warehouse (state) reflects the new count
+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 CDD in ReactJS: Component-Driven Development (CDD) is a modern approach to building scalable, maintainable UIs—especially useful in React and other component-based frameworks. It’s like constructing software with LEGO blocks: each piece is reusable, testable, and composable.
 React’s architecture is inherently component-based, making it the perfect playground for CDD. Here's how it works:
 - Start Small: Build atomic components like <Button />, <Input />, or <Card />
