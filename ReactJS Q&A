@@ -4040,3 +4040,37 @@ Imagine a Redux store managing live match data:
 - playerReducer tracks individual performance.
 - Actions like UPDATE_SCORE, ADD_PLAYER_STATS are dispatched from UI or WebSocket events.
 - Selectors extract top performers or match summaries.
+-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+Coding standards are like the architectural blueprints of software development—they ensure your code is clean, consistent, and scalable. Here's a structured overview tailored to your methodical mindset:
+
+📐 What Are Coding Standards?
+Coding standards are formal guidelines that define how code should be written, formatted, and organized. They help teams:
+- Maintain consistency across codebases
+- Improve readability and maintainability
+- Reduce bugs and technical debt
+- Enable collaboration across developers
+
+🧰 Key Elements of Coding Standards
+| Category | Best Practices | 
+| Naming Conventions | Use meaningful names (camelCase for variables, PascalCase for classes) | 
+| Formatting & Indentation | Consistent spacing, line breaks, and indentation (e.g., 2 or 4 spaces) | 
+| Commenting | Use comments to explain why, not what—avoid redundant or outdated comments | 
+| Error Handling | Use structured exception handling and meaningful error messages | 
+| Modularity | Break code into small, reusable functions or modules | 
+| DRY Principle | Don’t Repeat Yourself—abstract repeated logic into functions | 
+| Version Control | Use clear commit messages and branching strategies | 
+
+🧪 Example: React + Redux App
+In a React app with Redux:
+- Use camelCase for action types and variables (fetchUserData)
+- Keep reducers pure and modular (userReducer, authReducer)
+- Use ESLint + Prettier for formatting enforcement
+- Document complex selectors or middleware logic
+- Avoid deeply nested JSX—split into smaller components
+
+🛠 Tools to Enforce Standards
+- ESLint: Linting for JavaScript/React
+- Prettier: Auto-formatting
+- Stylelint: CSS/SCSS linting
+- Husky + lint-staged: Run checks before commits
+- SonarQube / Codacy: Code quality and security analysis
