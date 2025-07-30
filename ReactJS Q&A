@@ -1353,7 +1353,53 @@ Dynamic Routing: React Router supports dynamic routing, which means routes can c
 URL Management: React Router helps manage the URLs in your application, allowing for deep linking, bookmarkable URLs, and maintaining the browser's history stack.
 Component-Based Approach: Routing is handled through components, making it easy to compose routes and navigation in a modular and reusable way.
 Handling Nested Routes: React Router allows the creation of nested routes, which enables a more organized and structured approach to rendering content. This is particularly useful for larger applications with a complex structure.
---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+What are Pure Components : In React, pure components are a performance optimization technique that helps prevent unnecessary re-renders. They’re designed to render the same output for the same props and state—making them predictable and efficient.
+
+🧠 What Makes a Component “Pure”?
+A pure component:
+- Returns the same JSX output for the same props and state
+- Avoids side effects during rendering
+- Implements a shallow comparison of props and state to decide whether to re-render
+In class components, you achieve this by extending React.PureComponent:
+import React from 'react';
+
+class PlayerCard extends React.PureComponent {
+  render() {
+    return <div>{this.props.name}: {this.props.score}</div>;
+  }
+}
+
+
+React will automatically skip re-rendering PlayerCard if name and score haven’t changed.
+
+⚡ Functional Equivalent: React.memo
+For functional components, use React.memo():
+import React from 'react';
+
+const PlayerCard = React.memo(({ name, score }) => (
+  <div>{name}: {score}</div>
+));
+
+
+This wraps your component in a shallow comparison wrapper, just like PureComponent.
+
+✅ Advantages
+- Improved performance: Reduces unnecessary renders
+- Predictable behavior: Easier to debug and test
+- Great for static or rarely changing data: Like dashboards, scorecards, or financial summaries
+
+⚠️ Limitations
+- Shallow comparison only: Doesn’t detect deep changes in nested objects
+- Immutable data required: Mutating props or state can break the optimization
+- Not useful for frequently changing components: May add overhead without benefit
+
+🧪 Example Use Case
+Imagine a cricket dashboard:
+- Each player’s card is a pure component
+- Only re-renders when that player’s stats change
+- Keeps the UI snappy even with dozens of players
+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 ReactJS Hooks Reference
 React hooks are functions that allow you to use state and other React features in functional components. Hooks were introduced in React 16.8, enabling developers to manage state and lifecycle features without needing class components. They simplify the development process and make it easier to write reusable and cleaner code.
 Below is the basic representation of the React JS Hooks useState.
