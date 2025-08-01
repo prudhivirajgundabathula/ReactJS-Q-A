@@ -277,14 +277,8 @@ While the diffing algorithm is highly efficient, there are some cases where impr
 Missing or duplicate keys: Not providing unique keys for list items can result in unnecessary re-renders.
 Complex nested structures: In deeply nested components, the diffing process may take longer, although it is still optimized compared to manual DOM manipulation.
 ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-
-ReactJS State
-Last Updated : 12 Apr, 2025
-In React, the state refers to an object that holds information about a component's current situation. This information can change over time, typically as a result of user actions or data fetching, and when state changes, React re-renders the component to reflect the updated UI.
-
+ReactJS State : In React, the state refers to an object that holds information about a component's current situation. This information can change over time, typically as a result of user actions or data fetching, and when state changes, React re-renders the component to reflect the updated UI.
 Whenever state changes, React re-renders the component to reflect the updated data. This enables you to build dynamic UIs that respond to user interactions.
-
-Syntax
 
 const [state, setState] = useState(initialState);
 In this syntax
@@ -294,7 +288,6 @@ setState: A function that is used to update the state.
 initialState: The initial value that the state will hold when the component is first rendered.
 Creating State Object
 Creating a state in React is essential to building dynamic and interactive components. We can create a state object within the constructor of the class component.
-
 
 import React from 'react';
 
@@ -322,12 +315,10 @@ The render() method returns JSX that displays an <h1> heading with the text "My 
 Updating State in React
 We are using the ES6 thick arrow function format to take the previous state and props of the component as parameters and are updating the counter. The same can be written using the default functional way as follows.  
 
-
 // Filename - index.js
 
 import React from "react";
 import ReactDOM from "react-dom/client";
-
 class App extends React.Component {
     constructor(props) {
         super(props);
@@ -376,9 +367,6 @@ root.render(
 );
 Output
 
-
-ReactJS State
-
 Key Features of State in React
 Encapsulation of Data: Each React component has its own state, and the state data is encapsulated within the component. This means that state is not shared across components unless explicitly passed via props.
 Reactivity and Re-rendering: When state changes, React automatically triggers a re-render of the component to reflect the updated state in the UI. React ensures that only the parts of the UI that depend on the state are re-rendered, improving performance.
@@ -388,30 +376,25 @@ Do Not Directly Modify State: Avoid directly modifying the state. Instead, use s
 Use Functional Updates for Previous State: If the new state depends on the previous state, use a functional update to avoid potential issues with state changes.
 Lift State Up When Necessary: In React, state should be lifted up to the nearest common ancestor if two components need to share the same state. This makes it easier to manage state at a higher level and pass it down via props.
 Use Multiple State Variables: You don’t have to store all your state in a single object. React allows you to use multiple useState() calls in a single component. This can improve readability and maintainability by keeping state values grouped logically.
-State vs Props
-While both state and props store data in React, they serve different purposes:
+
+State vs Props : While both state and props store data in React, they serve different purposes:
 
 State: Managed within the component, mutable, and used to store dynamic data that changes over time.
 Props: Passed from a parent component to a child component, immutable, and used to share data between components.
 State can change over time and cause re-renders, whereas props are used to pass data from one component to another but are not directly modified by the component receiving them.
 
-When to Use State in React
-You should use state in React whenever:
+When to Use State in React : You should use state in React whenever:
 
 You need to store dynamic data that changes over time.
 The component should re-render when the state changes, reflecting updates in the UI.
 You need to manage user input, form data, or API responses.
 However, if the data does not change over time, it should be handled via props instead of state.
-
-Conclusion
-State is an essential concept in React that allows components to maintain dynamic data and re-render themselves when necessary. Whether you're using class components with this.setState() or functional components with the useState() hook, managing state effectively is key to building interactive React applications.
+Conclusion : State is an essential concept in React that allows components to maintain dynamic data and re-render themselves when necessary. Whether you're using class components with this.setState() or functional components with the useState() hook, managing state effectively is key to building interactive React applications.
 ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 Implementing State in React Components
-Last Updated : 11 Jul, 2025
 In React State is an object that holds some information which can be changed overtime. Whenever a State is updated it triggers re-rendering of the component. In React components State can be implemented by default in class components and in functional components we have to implement state using hooks.
 
 Table of Content
-
 Approaches To Implementing State in React
 Implementing State Using this.state object
 Implementing State using useState hook:
