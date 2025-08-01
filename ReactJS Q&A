@@ -635,31 +635,20 @@ React provides methods to work with children safely:
 | React.Children.only | Ensure only one child is passed | 
 | React.Children.toArray | Flatten children into an array | 
 --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-ReactJS Components Complete Reference
+ReactJS Components Complete Reference : In ReactJS, components are the building blocks that help you create interactive UIs by dividing your app into smaller, reusable pieces of code. Understanding how components work is essential for efficiently developing React applications.
 
-In ReactJS, components are the building blocks that help you create interactive UIs by dividing your app into smaller, reusable pieces of code. Understanding how components work is essential for efficiently developing React applications.
+What are ReactJS Components? : Components in React are JavaScript functions or classes that return a piece of UI. These components allow developers to build complex UIs from small, isolated, and reusable pieces. React components are the core building blocks for any React application and can manage their state, handle user inputs, and render dynamic content.
 
-In this article will provide a complete reference to React components, covering their types, usage, and key differences between class and functional components.
-
-What are ReactJS Components?
-Components in React are JavaScript functions or classes that return a piece of UI. These components allow developers to build complex UIs from small, isolated, and reusable pieces. React components are the core building blocks for any React application and can manage their state, handle user inputs, and render dynamic content.
-
-Types of React Components
 There are two main types of components in React:
-
 Functional Components
 Class Components
-Functional Components
-A Functional Component is a simpler and more concise way of writing components in React using JavaScript functions. These components receive props (properties) as an argument and return JSX (JavaScript XML) to define the UI structure.
 
+Functional Components : A Functional Component is a simpler and more concise way of writing components in React using JavaScript functions. These components receive props (properties) as an argument and return JSX (JavaScript XML) to define the UI structure.
 
 import React, { useState } from 'react';
-
 const Welcome = () => {
-
-    const [message, setMessage] = useState("Hello, World!");
-
-    return (
+ const [message, setMessage] = useState("Hello, World!");
+  return (
         <div>
             <h1>{message}</h1>
             <button onClick={() => setMessage("Hello, React!")}>
@@ -671,65 +660,10 @@ const Welcome = () => {
 
 export default Welcome;
 Output
-
-functional-component
-Functional Components
  In this code
-
 useState is used to manage the message state, initially set to "Hello, World!".
 The button click triggers setMessage, which updates the message state to "Hello, React!".
 The component displays the message in an <h1> element and updates it when the button is clicked.
-Class Components
-Class components in React are ES6 classes that extend the React.Component class. They are used for creating components that need to have their own state or lifecycle methods. While functional components are now the go-to choice for many developers (especially with the introduction of hooks like useState and useEffect), class components still have their place and provide a more traditional way of handling component logic in React.
-
-
-import React, { Component } from 'react';
-
-class Counter extends Component {
-    constructor(props) {
-        super(props);
-
-        this.state = {
-            count: 0
-        };
-    }
-
-    increment = () => {
-        this.setState({ count: this.state.count + 1 });
-    };
-
-    decrement = () => {
-        this.setState({ count: this.state.count - 1 });
-    };
-
-    render() {
-        return (
-            <div>
-                <h1>Counter: {this.state.count}</h1>
-                <button onClick={this.increment}>Increment</button>
-                <button onClick={this.decrement}>Decrement</button>
-            </div>
-        );
-    }
-}
-
-export default Counter;
-Output
-
-class-component
-Class Components in React
-In this code
-
-state: The counter (count) is initialized to 0 in the constructor.
-increment and decrement: These methods update the count state by 1 when the respective buttons are clicked.
-render: Displays the current count and two buttons to increment or decrement the counter.
----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-ReactJS Functional Components
-Last Updated : 17 Feb, 2025
-In ReactJS, functional components are a core part of building user interfaces. They are simple, lightweight, and powerful tools for rendering UI and handling logic. Functional components can accept props as input and return JSX that describes what the component should render.
-
-What are Reactjs Functional Components
-ReactJS functional components are JavaScript functions that return a JSX element, which is a template used to define the component's structure. JSX looks similar to HTML, but it has a special syntax that lets it be converted into JavaScript code.
 
 Stateless (before hooks): Originally, functional components were stateless and used only for rendering UI based on props.
 Simpler Syntax: They are defined as JavaScript functions, leading to cleaner and more readable code.
@@ -810,7 +744,6 @@ Props are used to pass data from a parent component to a child component. Props 
 
 Passing a Single Prop to a React Functional Component:
 
-
 import React from 'react';
 import Greeting from './components/Greeting';  
 
@@ -831,6 +764,44 @@ In this code
 In the App.js component, we are passing a name prop to the Greeting component.
 In Greeting.js, the name prop is accessed using props.name, and it is used to dynamically display the greeting message.
 When you render <Greeting name="John" />.
+
+Class Components : Class components in React are ES6 classes that extend the React.Component class. They are used for creating components that need to have their own state or lifecycle methods. While functional components are now the go-to choice for many developers (especially with the introduction of hooks like useState and useEffect), class components still have their place and provide a more traditional way of handling component logic in React.
+
+import React, { Component } from 'react';
+class Counter extends Component {
+    constructor(props) {
+        super(props);
+
+        this.state = {
+            count: 0
+        };
+    }
+
+    increment = () => {
+        this.setState({ count: this.state.count + 1 });
+    };
+
+    decrement = () => {
+        this.setState({ count: this.state.count - 1 });
+    };
+
+    render() {
+        return (
+            <div>
+                <h1>Counter: {this.state.count}</h1>
+                <button onClick={this.increment}>Increment</button>
+                <button onClick={this.decrement}>Decrement</button>
+            </div>
+        );
+    }
+}
+
+export default Counter;
+Output
+In this code
+state: The counter (count) is initialized to 0 in the constructor.
+increment and decrement: These methods update the count state by 1 when the respective buttons are clicked.
+render: Displays the current count and two buttons to increment or decrement the counter.
 --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 3. Input Element : In React, the Input Element value can be handled in two ways:
 Controlled Input
