@@ -669,14 +669,12 @@ How ReactJS Functional Components Work
 When a functional component receives input and is rendered, React uses props and updates the virtual DOM to ensure the UI reflects the current state.
 
 Here's a breakdown of how this process works:
-
 Props: Functional components receive input data through props, which are objects containing key-value pairs.
 Processing Props: After receiving props, the component processes them and returns a JSX element that defines the component's structure and content.
 Virtual DOM: When the component is rendered, React creates a virtual DOM tree that represents the current state of the application.
 Re-rendering: If the component's props or state change, React updates the virtual DOM tree accordingly and triggers the component to re-render.
+
 Implementation of functional component in ReactJS :
-
-
 import React, { useState } from 'react';
 
 function App() {
