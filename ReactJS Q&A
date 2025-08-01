@@ -542,18 +542,47 @@ Props are read-only and cannot be changed by the child component.
 They help in data communication between components.
 Passed as attributes in JSX elements.
 
-import React from 'react';
-
+What Are Props?
+Props (short for “properties”) are how data is passed from one component to another in React. They’re read-only and help make components reusable and dynamic.
+🔍 In Your Code
 function Greeting({ name }) {
-    return <h1>Hello, {name}!</h1>;
+  return <h1>Hello, {name}!</h1>;
+}
+
+- Greeting is a functional component that receives a prop called name.
+- { name } is destructured from the props object.
+- It renders: Hello, Jiya! because name="Jiya" is passed from the parent.
+function App() {
+  return <Greeting name="Jiya" />;
+}
+
+- App is the parent component.
+- It passes "Jiya" as a prop to Greeting.
+
+👶 What Is props.children?
+props.children is a special prop that contains everything between a component’s opening and closing tags.
+
+🧪 Example with props.children
+function Wrapper({ children }) {
+  return <div className="wrapper">{children}</div>;
 }
 
 function App() {
-    return <Greeting name="Jiya" />;
+  return (
+    <Wrapper>
+      <Greeting name="Jiya" />
+      <p>Welcome to the app!</p>
+    </Wrapper>
+  );
 }
 
-export default App;
-Output
+- Wrapper receives Greeting and <p> as children.
+- children is useful for layout components, modals, or generic containers.
+
+🧠 Summary
+| Concept | Purpose | In Your Code Example | 
+| props | Pass data from parent to child | name="Jiya" | 
+| props.children | Pass nested elements between tags | Not used yet | 
 
 In React, state and props are both ways to manage data in components—but they serve different purposes and behave differently. Here's a clear breakdown:
 
@@ -579,12 +608,10 @@ When you write:
   <p>This is a child element</p>
 </MyComponent>
 
-
 The <p> tag becomes part of props.children inside MyComponent. You can then render it like:
 const MyComponent = (props) => {
   return <div>{props.children}</div>;
 };
-
 
 🧠 Why Use children?
 - Component Composition: Build reusable wrappers like modals, cards, or layout containers.
@@ -607,40 +634,6 @@ React provides methods to work with children safely:
 | React.Children.count | Count number of children | 
 | React.Children.only | Ensure only one child is passed | 
 | React.Children.toArray | Flatten children into an array | 
-
-Here's a simple React example that shows how the children prop works:
-🧪 Example: Card Component Using props.children
-// Card.js
-const Card = ({ children }) => {
-  return (
-    <div style={{ border: '1px solid #ccc', padding: '16px', borderRadius: '8px' }}>
-      {children}
-    </div>
-  );
-};
-
-export default Card;
-
-
-// App.js
-import Card from './Card';
-
-function App() {
-  return (
-    <div>
-      <Card>
-        <h2>Hello, Prudhivi!</h2>
-        <p>This content is passed as children to the Card component.</p>
-      </Card>
-    </div>
-  );
-}
-
-
-🧠 What’s Happening Here?
-- The Card component doesn’t know what content it will receive.
-- Whatever is placed between <Card> ... </Card> in App.js becomes props.children.
-- This makes Card reusable for wrapping any content.
 --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 ReactJS Components Complete Reference
 
