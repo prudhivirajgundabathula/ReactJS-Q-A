@@ -823,29 +823,27 @@ Uncontrolled inputs are like traditional HTML form inputs. Its value can only be
 Example:  <input type="text" />
 --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 ReactJS Higher-Order Components
-🧩 What Is a HOC? : A Higher-Order Component is a function that takes a component and returns a new component with added behavior or props.
-
-ll create a HOC called withLoader that shows a loading message until the wrapped component receives data.
-
+🧩 What Is a HOC? : A Higher-Order Component is a function that takes a component as input and returns a new enhanced component. It’s a pattern used to reuse logic across multiple components without repeating code.
+Real time Example
 🧩 HOC: withLoader.js
-import React from 'react';
-const withLoader = (WrappedComponent) => {
-  return function EnhancedComponent({ isLoading, ...props }) {
-    if (isLoading) {
-      return <div>Loading...</div>;
+import React from 'react';                                           // Import React so we can use JSX and create components.
+const withLoader = (WrappedComponent) => {                       // Declare the HOC as a function that receives a component to wrap.    
+  return function EnhancedComponent({ isLoading, ...props }) {   // Return a new component that accepts props.   // We destructure 'isLoading' to control rendering, and spread the rest of the props.
+     if (isLoading) {
+      return <div>Loading...</div>;                               // If loading is true, we return a placeholder UI.
     }
-    return <WrappedComponent {...props} />;
+    return <WrappedComponent {...props} />;        // If loading is false, render the wrapped component with its original props.
   };
 };
-export default withLoader;
+export default withLoader;                    // Export the HOC so it can be used to wrap other components.
 
 🧪 Wrapped Component: UserList.js
 import React from 'react';
-const UserList = ({ users }) => {
+const UserList = ({ users }) => {                   // Stateless functional component that receives 'users' as a prop
   return (
     <ul>
-      {users.map((user) => (
-        <li key={user.id}>{user.name}</li>
+      {users.map((user) => (                // Loop through users and render each one in a list item 
+        <li key={user.id}>{user.name}</li>  // Display the user's id and name
       ))}
     </ul>
   );
