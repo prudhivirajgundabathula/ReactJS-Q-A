@@ -824,14 +824,67 @@ Example:  <input type="text" />
 --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 ReactJS Higher-Order Components
 🧩 What Is a HOC? : A Higher-Order Component is a function that takes a component and returns a new component with added behavior or props.
-const withExtraInfo = (WrappedComponent) => {
-  return function EnhancedComponent(props) {
-    return <WrappedComponent {...props} extra="Some Info" />;
+
+ll create a HOC called withLoader that shows a loading message until the wrapped component receives data.
+
+🧩 HOC: withLoader.js
+import React from 'react';
+const withLoader = (WrappedComponent) => {
+  return function EnhancedComponent({ isLoading, ...props }) {
+    if (isLoading) {
+      return <div>Loading...</div>;
+    }
+    return <WrappedComponent {...props} />;
   };
 };
+export default withLoader;
 
-You can use it like:
-const MyComponentWithInfo = withExtraInfo(MyComponent);
+🧪 Wrapped Component: UserList.js
+import React from 'react';
+const UserList = ({ users }) => {
+  return (
+    <ul>
+      {users.map((user) => (
+        <li key={user.id}>{user.name}</li>
+      ))}
+    </ul>
+  );
+};
+export default UserList;
+
+🧩Usage in App.js
+import React, { useEffect, useState } from 'react';     // Import React and React Hooks: useEffect for lifecycle, useState for state management.
+import UserList from './UserList';                      // Import the presentational component that displays the list of users.
+import withLoader from './withLoader';                 // Import the HOC that adds conditional loading behavior.
+const EnhancedUserList = withLoader(UserList);        // Wrap UserList with the HOC. This returns a new component that shows 'Loading...' when isLoading is true.
+
+function App() {
+  const [users, setUsers] = useState([]);                   // Initialize state to hold user data (initially empty).
+  const [loading, setLoading] = useState(true);             // Initialize loading state to true. Used to control the loading behavior.   
+
+  useEffect(() => {                                        // Runs when the component mounts. Simulates data fetching.
+    // Simulate API call
+    setTimeout(() => {
+      setUsers([
+        { id: 1, name: 'Alice' }, 
+        { id: 2, name: 'Bob' },
+      ]);
+      setLoading(false);                             // Toggle loading to false to indicate that data is ready.
+    }, 2000);
+  }, []);                                                  
+
+  return <EnhancedUserList isLoading={loading} users={users} />;       
+    // Render the enhanced component with props:
+  // - isLoading controls whether to show 'Loading...' or the user list.
+  // - users contains the data to display.
+}
+export default App;
+
+🔍 Summary of Key Flow
+| File | Role | Description | 
+| UserList.js | Presentational | Displays data (users) passed via props. | 
+| withLoader.js | HOC Wrapper | Adds logic to show "Loading..." based on isLoading. | 
+| App.js | Container | Manages state and wraps UserList with HOC for enhanced behavior. | 
 
 🔍 Why Use HOCs?
 | Concept | Purpose | 
