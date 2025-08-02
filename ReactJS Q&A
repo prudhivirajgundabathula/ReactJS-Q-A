@@ -992,7 +992,6 @@ setState() Function
 shouldComponentUpdate()
 getSnapshotBeforeUpdate() Method
 componentDidUpdate()
-getDerivedStateFromProps
 
 getDerivedStateFromProps(props, state) is a static method that is called just before the render() method in both the mounting and updating phase in React. It takes updated props and the current state as arguments.
 
@@ -1002,32 +1001,81 @@ static getDerivedStateFromProps(props, state) {
     }
     return null; // No state change
 }
-setState()
-This is not particularly a Lifecycle function and can be invoked explicitly at any instant. This function is used to update the state of a component. You may refer to this article for detailed information.
+setState() : This is not particularly a Lifecycle function and can be invoked explicitly at any instant. This function is used to update the state of a component. You may refer to this article for detailed information.
 
 this.setState((prevState, props) => ({
       counter: prevState.count + props.diff
 }));
-shouldComponentUpdate()
-shouldComponentUpdate() Is a lifecycle method in React class components that determines whether a component should re-render. It compares the current and next props/states and returns true if the component should update or false if it should not.
 
-shouldComponentUpdate(nextProps, nextState)
-It returns true or false, if false, then render(), componentWillUpdate(), and componentDidUpdate() method does not get invoked.
+shouldComponentUpdate() : shouldComponentUpdate() Is a lifecycle method in React class components that determines whether a component should re-render. It compares the current and next props/states and returns true if the component should update or false if it should not.
 
-getSnapshotBeforeUpdate() Method
-The getSnapshotBeforeUpdate() method is invoked just before the DOM is being rendered. It is used to store the previous values of the state after the DOM is updated.
+shouldComponentUpdate(nextProps, nextState) : It returns true or false, if false, then render(), componentWillUpdate(), and componentDidUpdate() method does not get invoked.
 
-getSnapshotBeforeUpdate(prevProps, prevState)
-componentDidUpdate()
-Similarly, this function is invoked after the component is rendered, i.e., this function gets invoked once after the render() function is executed after the updation of State or Props.
+getSnapshotBeforeUpdate(prevProps, prevState) : The getSnapshotBeforeUpdate() method is invoked just before the DOM is being rendered. It is used to store the previous values of the state after the DOM is updated.
 
-componentDidUpdate(prevProps, prevState, snapshot)
+componentDidUpdate(prevProps, prevState, snapshot): Similarly, this function is invoked after the component is rendered, i.e., this function gets invoked once after the render() function is executed after the updation of State or Props.
 
-3. Unmounting
-This is the final phase of the lifecycle of the component, which is the phase of unmounting the component from the DOM. The following function is the sole member of this phase.
+Real-Time Example: Counter with Scroll Snapshot
+class CounterWithScroll extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      count: 0,
+      scrollY: 0
+    };
+  }
 
-componentWillUnmount()
-This function is invoked before the component is finally unmounted from the DOM, i.e., this function gets invoked once before the component is removed from the page, and this denotes the end of the lifecycle.
+  // 🔁 Sync state with props if needed
+  static getDerivedStateFromProps(props, state) {
+    if (props.reset && state.count !== 0) {
+      return { count: 0 }; // Reset count if prop changes
+    }
+    return null; // No change
+  }
+
+  // ⚙️ Triggered by button click
+  increment = () => {
+    this.setState(prevState => ({ count: prevState.count + 1 }));
+  };
+
+  // 🧠 Decide whether to re-render
+  shouldComponentUpdate(nextProps, nextState) {
+    // Only re-render if count changes
+    return nextState.count !== this.state.count;
+  }
+
+  // 📸 Capture scroll position before DOM updates
+  getSnapshotBeforeUpdate(prevProps, prevState) {
+    return window.scrollY; // Save current scroll position
+  }
+
+  // 🔍 Runs after DOM updates
+  componentDidUpdate(prevProps, prevState, snapshot) {
+    console.log('Previous scroll position:', snapshot);
+    console.log('Count updated from', prevState.count, 'to', this.state.count);
+  }
+
+  render() {
+    return (
+      <div>
+        <h2>Count: {this.state.count}</h2>
+        <button onClick={this.increment}>Increment</button>
+      </div>
+    );
+  }
+}
+
+What’s Happening Behind the Scenes
+- User clicks "Increment" → setState() triggers update
+- React checks getDerivedStateFromProps() to sync props/state
+- shouldComponentUpdate() decides if re-render is needed
+- If yes, render() runs
+- Before DOM updates, getSnapshotBeforeUpdate() captures scroll
+- After DOM updates, componentDidUpdate() logs changes
+
+3. Unmounting : This is the final phase of the lifecycle of the component, which is the phase of unmounting the component from the DOM. The following function is the sole member of this phase.
+
+componentWillUnmount() : This function is invoked before the component is finally unmounted from the DOM, i.e., this function gets invoked once before the component is removed from the page, and this denotes the end of the lifecycle.
 
 Implementing the Component Lifecycle methods
 Let us now see one final example to finish the article while revising what’s discussed above.
@@ -1106,42 +1154,6 @@ In functional components, hooks like useState() and useEffect() make it easier t
 Conclusion
 The React component lifecycle is essential for managing component behavior, handling state and props, and optimizing performance. By effectively utilizing lifecycle methods, developers can ensure efficient rendering and proper resource management throughout the component’s life.
 --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-ReactJS, a Higher-Order Component (HOC) is a design pattern that lets you reuse component logic by wrapping one component inside another. It’s not a feature of React itself, but a pattern that emerges from React’s compositional nature.
-
-🧠 What Is a Higher-Order Component?
-A HOC is a function that:
-- Takes a component as input
-- Returns a new component with enhanced behavior
-const withExtraProps = (WrappedComponent) => {
-  return (props) => {
-    return <WrappedComponent {...props} extra="Hello from HOC!" />;
-  };
-};
-
-
-📦 Why Use HOCs?
-- Code Reusability: Share logic like authentication, logging, or data fetching
-- Separation of Concerns: Keep UI and logic separate
-- Composition: Combine multiple behaviors without modifying the original component
-
-🛠️ Real Example: Add Logging to Any Component
-const withLogger = (WrappedComponent) => {
-  return class extends React.Component {
-    componentDidMount() {
-      console.log(`${WrappedComponent.name} mounted`);
-    }
-
-    render() {
-      return <WrappedComponent {...this.props} />;
-    }
-  };
-};
-
-
-Usage:
-const MyComponent = () => <div>Hello!</div>;
-const MyComponentWithLogger = withLogger(MyComponent);
---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 ReactJS Fragments are a handy way to group multiple elements without adding extra nodes to the DOM. This keeps your markup clean and avoids unnecessary <div> wrappers that can clutter your layout or break semantic HTML.
 0
 🧩 Why Use Fragments?
@@ -1155,7 +1167,6 @@ ReactJS Fragments are a handy way to group multiple elements without adding extr
   <h1>Hello</h1>
   <p>Welcome to React!</p>
 </>
-
 
 2. Explicit React.Fragment
 import React from 'react';
