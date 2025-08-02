@@ -960,39 +960,30 @@ It’s ideal for:
 - DOM measurements or manipulations
 - Starting timers or animations
 
-🛠️ Syntax
-class MyComponent extends React.Component {
-  componentDidMount() {
-    // Runs once after initial render
-    console.log('Component mounted!');
-  }
-
-  render() {
-    return <div>Hello World</div>;
-  }
-}
-
 🔍 Real-World Example: Fetching Data
-class UserList extends React.Component {
-  state = { users: [], loading: true };
+class UserProfile extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = { user: null };
+  }
 
   componentDidMount() {
-    fetch('https://api.example.com/users')
-      .then(res => res.json())
-      .then(data => this.setState({ users: data, loading: false }))
-      .catch(err => console.error(err));
+    // API call after component mounts
+    fetch('/api/user')
+      .then(response => response.json())
+      .then(data => this.setState({ user: data }));
   }
 
   render() {
-    const { users, loading } = this.state;
-    return loading ? <p>Loading...</p> : <ul>{users.map(u => <li key={u.id}>{u.name}</li>)}</ul>;
+    const { user } = this.state;
+    if (!user) return <div>Loading...</div>;
+    return <div>Welcome, {user.name}</div>;
   }
 }
-✅ This ensures the data is fetched after the component is mounted, avoiding premature API calls.
-⚠️ Best Practices
-- Avoid heavy logic inside componentDidMount()—keep it lean
-- Always clean up side effects in componentWillUnmount() (e.g., timers, listeners)
-- Don’t use it for initial state setup—that belongs in the constructor
+Quick Summary
+- Runs once after the first render.
+- Happens on the client-side only, after the DOM is available.
+- Ideal for initializing stuff that shouldn’t re-run on updates.
 
 2. Updation : Updating refers to the process of a component being re-rendered due to changes in its state or props. This phase occurs whenever a component's internal state is modified or its parent component passes new props. When an update happens, React re-renders the component to reflect the changes and ensures that the DOM is updated accordingly.
 
