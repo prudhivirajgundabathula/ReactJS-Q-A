@@ -904,23 +904,17 @@ export default App;
 🧪 Real-Life Analogy
 Think of HOCs like decorators in design patterns. You wrap a base object (component) with extra functionality—like adding frosting to a cake 🍰 without changing the cake itself.
 --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-React Lifecycle
-In React, the lifecycle refers to the various stages a component goes through. These stages allow developers to run specific code at key moments, such as when the component is created, updated, or removed. By understanding the React lifecycle, you can better manage resources, side effects, and performance.
-
-What is the React Lifecycle?
-The React lifecycle refers to the different phases a component goes through during its time in a React application. These phases allow you to run specific code at key moments in a component's life, such as when it’s created, updated, or removed from the screen.
+What is the React Lifecycle? : The React lifecycle refers to the different phases a component goes through during its time in a React application. These phases allow you to run specific code at key moments in a component's life, such as when it’s created, updated, or removed from the screen.
 
 Here are the three main phases of the React component lifecycle
 
-React-Lifecycle
 React Lifecycle Method
-Mounting: Initializes, renders, and mounts the component (componentDidMount()).
-Updating: Handles state/prop changes, re-renders, and updates (componentDidUpdate()).
+Mounting : Initializes, renders, and mounts the component (componentDidMount()).
+Updating : Handles state/prop changes, re-renders, and updates (componentDidUpdate()).
 Unmounting: Cleans up before removal (componentWillUnmount()).
 Phases of Lifecycle in React Components
 
-1. Mounting
-Mounting refers to the process of creating and inserting a component into the DOM for the first time in a React application. During mounting, React initializes the component, sets up its internal state (if any), and inserts it into the DOM.
+1. Mounting : Mounting refers to the process of creating and inserting a component into the DOM for the first time in a React application. During mounting, React initializes the component, sets up its internal state (if any), and inserts it into the DOM.
 
 constructor
 getDerivedStateFromProps
@@ -1037,6 +1031,7 @@ componentDidUpdate()
 Similarly, this function is invoked after the component is rendered, i.e., this function gets invoked once after the render() function is executed after the updation of State or Props.
 
 componentDidUpdate(prevProps, prevState, snapshot)
+
 3. Unmounting
 This is the final phase of the lifecycle of the component, which is the phase of unmounting the component from the DOM. The following function is the sole member of this phase.
 
