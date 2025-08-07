@@ -1001,7 +1001,7 @@ static getDerivedStateFromProps(props, state) {
     }
     return null; // No state change
 }
-setState() : This is not particularly a Lifecycle function and can be invoked explicitly at any instant. This function is used to update the state of a component. You may refer to this article for detailed information.
+setState() : This is not particularly a Lifecycle function and can be invoked explicitly at any instant. This function is used to update the state of a component. 
 
 this.setState((prevState, props) => ({
       counter: prevState.count + props.diff
