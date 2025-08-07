@@ -1074,71 +1074,79 @@ What’s Happening Behind the Scenes
 - Before DOM updates, getSnapshotBeforeUpdate() captures scroll
 - After DOM updates, componentDidUpdate() logs changes
 
-3. Unmounting : This is the final phase of the lifecycle of the component, which is the phase of unmounting the component from the DOM. The following function is the sole member of this phase.
+3. Unmounting : The term unmounting() in the context of React refers to the phase in a component's lifecycle when it is being removed from the DOM. React provides a lifecycle method called componentWillUnmount() in class components that gets called just before the component is unmounted and destroyed.
+Purpose of componentWillUnmount() : It is typically used to clean up resources such as:
+Clearing timers or intervals
+Cancelling network requests
+Removing event listeners
+Cleaning up subscriptions or any manual DOM changes
 
-componentWillUnmount() : This function is invoked before the component is finally unmounted from the DOM, i.e., this function gets invoked once before the component is removed from the page, and this denotes the end of the lifecycle.
+You cannot call setState in this method as the component is being destroyed.
 
-Implementing the Component Lifecycle methods
-Let us now see one final example to finish the article while revising what’s discussed above.
+Example for Unmounting : Cleaning Up an Event Listener (Mouse Tracking)
+import React from 'react';
 
-First, create a react app and edit your index.js file from the src folder.
+class MouseTracker extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = { x: 0, y: 0 };
+  }
 
-// Filename - src/index.js:
-import React from "react";
-import ReactDOM from 'react-dom';
-class Test extends React.Component {
-    constructor(props) {
-        super(props);
-        this.state = { hello: "World!" };
-    }
-    componentDidMount() {
-        console.log("componentDidMount()");
-    }
-    changeState() {
-        this.setState({ hello: "Geek!" });
-    }
-    render() {
-        return (
-            <div>
-                <h1>
-                    GeeksForGeeks.org, Hello
-                    {this.state.hello}
-                </h1>
-                <h2>
-                    <a
-                        onClick={this.changeState.bind(
-                            this
-                        )}
-                    >
-                        Press Here!
-                    </a>
-                </h2>
-            </div>
-        );
-    }
-    shouldComponentUpdate(nextProps, nextState) {
-        console.log("shouldComponentUpdate()");
-        return true;
-    }
-    componentDidUpdate() {
-        console.log("componentDidUpdate()");
-    }
+  handleMouseMove = (event) => {
+    this.setState({ x: event.clientX, y: event.clientY });
+  };
+
+  componentDidMount() {
+    window.addEventListener('mousemove', this.handleMouseMove);
+  }
+
+  componentWillUnmount() {
+    window.removeEventListener('mousemove', this.handleMouseMove);
+    console.log('MouseTracker component unmounted. Listener removed.');
+  }
+
+  render() {
+    return (
+      <div>
+        <h3>Mouse Position:</h3>
+        <p>X: {this.state.x}, Y: {this.state.y}</p>
+      </div>
+    );
+  }
 }
-const root = ReactDOM.createRoot(
-    document.getElementById("root")
-);
-root.render(<Test />);
-Output
 
-React lifecycle example - output
+class App extends React.Component {
+  state = { showTracker: true };
 
-In this example
+  toggleTracker = () => {
+    this.setState((prev) => ({ showTracker: !prev.showTracker }));
+  };
 
-The Test class is a React component with a state property hello initially set to “World!”.
-The componentDidMount() the method runs after the component is added to the DOM, logging “componentDidMount().”
-The changeState() method updates the state to change hello to “Geek!” when called.
-In the render() method, the component displays the hello state inside an <h1> tag and includes a link to trigger the changeState() function.
-The shouldComponentUpdate() method logs “shouldComponentUpdate()” and allows the component to re-render while componentDidUpdate() logs “componentDidUpdate()” after the update.
+  render() {
+    return (
+      <div>
+        <button onClick={this.toggleTracker}>
+          {this.state.showTracker ? 'Stop Tracking' : 'Start Tracking'}
+        </button>
+        {this.state.showTracker && <MouseTracker />}
+      </div>
+    );
+  }
+}
+
+export default App;
+What happens:
+MouseTracker adds a global mousemove listener in componentDidMount().
+When MouseTracker unmounts (button clicked), componentWillUnmount() removes the listener, preventing potential memory leaks.
+
+Summary : componentWillUnmount() is used for cleanup:
+Remove event listeners.
+Clear timers (setTimeout/setInterval).
+Cancel fetch/network requests.
+Unsubscribe from subscriptions.
+Stop animations.
+
+It runs just before the component is removed from the UI.
 
 What is the need for the react lifecycle?
 It provides a structured way to handle specific tasks at various points in a component’s life, such as when it is created, updated, or destroyed.
