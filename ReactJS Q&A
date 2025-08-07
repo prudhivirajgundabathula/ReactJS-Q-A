@@ -1012,7 +1012,7 @@ shouldComponentUpdate()? : shouldComponentUpdate(nextProps, nextState) is a Reac
 - Returns false → React skips rendering, improving performance.
 It’s especially useful when your component receives frequent updates, but not all of them require a re-render.
 
-getSnapshotBeforeUpdate(prevProps, prevState) : The getSnapshotBeforeUpdate() method is invoked just before the DOM is being rendered. It is used to store the previous values of the state after the DOM is updated.
+getSnapshotBeforeUpdate(prevProps, prevState) :getSnapshotBeforeUpdate is a React class component lifecycle method that runs immediately before the DOM is updated. It lets your component capture current information from the DOM (like scroll position) before changes are flushed to the UI. The value you return from this method becomes the third argument (snapshot) of componentDidUpdate, allowing you to safely adjust the DOM after the update.
 
 componentDidUpdate(prevProps, prevState, snapshot): Similarly, this function is invoked after the component is rendered, i.e., this function gets invoked once after the render() function is executed after the updation of State or Props.
 
