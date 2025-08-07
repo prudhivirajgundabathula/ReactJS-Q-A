@@ -1007,9 +1007,10 @@ this.setState((prevState, props) => ({
       counter: prevState.count + props.diff
 }));
 
-shouldComponentUpdate() : shouldComponentUpdate() Is a lifecycle method in React class components that determines whether a component should re-render. It compares the current and next props/states and returns true if the component should update or false if it should not.
-
-shouldComponentUpdate(nextProps, nextState) : It returns true or false, if false, then render(), componentWillUpdate(), and componentDidUpdate() method does not get invoked.
+shouldComponentUpdate()? : shouldComponentUpdate(nextProps, nextState) is a React class lifecycle method used during the Updating Phase. It lets you control whether a component should re-render when its props or state change.
+- Returns true → Component re-renders.
+- Returns false → React skips rendering, improving performance.
+It’s especially useful when your component receives frequent updates, but not all of them require a re-render.
 
 getSnapshotBeforeUpdate(prevProps, prevState) : The getSnapshotBeforeUpdate() method is invoked just before the DOM is being rendered. It is used to store the previous values of the state after the DOM is updated.
 
